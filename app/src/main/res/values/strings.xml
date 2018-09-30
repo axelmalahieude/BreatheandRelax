@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">Breathe and Relax</string>
+
+    <!-- Spinner (breathing style) labels -->
+    <string name="breathing_style">Breathing style</string>
+    <string name="uplifting_breathing">Energizing</string>
+    <string name="relaxing_breathing">Relaxing</string>
+    <string name="meditative_breathing">Meditative</string>
+    <string name="custom_breathing">Custom</string>
+
+    <!-- SeekBar labels -->
+    <string name="inhale_time">Inhale for</string>
+    <string name="exhale_time">Exhale for</string>
+    <string name="hold_inhale">Hold for</string>
+    <string name="hold_exhale">Pause for</string>
+
+    <string name="timer">Timer</string>
+    <string name="stopwatch">Stopwatch</string>
+
+    <!-- Menu titles -->
+    <string name="menu_title_help">Help</string>
+    <string name="menu_title_reset">Reset</string>
+    <string name="menu_title_settings">Settings</string>
+
+    <!-- Button labels -->
+    <string name="button_start_breathing">Start breathing</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="acknowledgement_got_it">Got it!</string>
+    <string name="button_continue">Continue</string>
+
+    <!-- Toast messages -->
+    <string name="toast_pause">Paused; tap to resume</string>
+    <string name="toast_inhale">Inhale</string>
+    <string name="toast_exhale">Exhale</string>
+
+    <!-- TextView labels -->
+    <string name="clock_style">Clock style</string>
+    <string name="choose_time">Choose time</string>
+    <string name="minutes">minutes</string>
+    <string name="seconds">seconds</string>
+    <string name="minutes_singular">minute</string>
+    <string name="seconds_singular">second</string>
+    <string name="title_help_text">Welcome to Breathe and Relax</string>
+    <string name="title_med_finished">Nice job!</string>
+    <string name="meditation_time_summary1">You spent</string>
+    <string name="and">and</string>
+    <string name="meditation_time_summary2">breathing and relaxing.</string>
+    <string name="meditation_finished_summary">You finished breathing!</string>
+    <string name="help_text">This app is designed to guide your breathing to help improve your well-being.
+        The breath has four parts: inhalation, hold, expiration, and a
+        pause before the next breath. The ratio between each part produces a specific result; if
+        you change that ratio, you act differently on your nervous system.\n\nThis app is preset with several ratios. You can choose to
+        proportionally elongate each ratio in Settings if you wish, or adapt it to personal preference.
+        Take a deep breath, and enjoy!</string>
+    <string name="tap_to_start">Tap to breathe</string>
+
+    <!-- Used by Preferences -->
+    <string name="pref_enable_stopwatch_key" translatable="false">enable_stopwatch</string>
+    <string name="pref_enable_stopwatch_label">Enable stopwatch</string>
+    <string name="pref_enable_stopwatch_summary_off">Clock will count down</string>
+    <string name="pref_enable_stopwatch_summary_on">Clock will count up</string>
+
+    <string name="pref_seekbar_inhale_key" translatable="false">seekbar_inhale</string>
+    <string name="pref_seekbar_inhale_label">Inhale for</string>
+
+    <string name="pref_seekbar_hold_key" translatable="false">seekbar_hold</string>
+    <string name="pref_seekbar_hold_label">Hold breath for</string>
+
+    <string name="pref_seekbar_exhale_key" translatable="false">seekbar_exhale</string>
+    <string name="pref_seekbar_exhale_label">Exhale for</string>
+
+    <string name="pref_seekbar_pause_key" translatable="false">seekbar_pause</string>
+    <string name="pref_seekbar_pause_label">Pause between breaths for</string>
+
+    <string name="pref_list_breath_style_key" translatable="false">breath_list</string>
+    <string name="pref_list_breath_style_label">Breathing style - tap to choose</string>
+    <string name="pref_list_default" translatable="false">@string/pref_list_uplifting_breathing_value</string>
+    <string name="pref_list_uplifting_breathing_value" translatable="false">uplifting_value</string>
+    <string name="pref_list_relaxing_breathing_value" translatable="false">relaxing_value</string>
+    <string name="pref_list_meditative_breathing_value" translatable="false">meditative_value</string>
+    <string name="pref_list_custom_breathing_value" translatable="false">custom_value</string>
+
+    <string name="pref_animation_style_key" translatable="false">animation_style</string>
+    <string name="pref_animation_style_label">Animation style</string>
+    <string name="pref_animation_style_default" translatable="false">@string/pref_animation_style_grow_value</string>
+    <string name="pref_animation_style_circle">Trace circle</string>
+    <string name="pref_animation_style_circle_value" translatable="false">trace_circle</string>
+    <string name="pref_animation_style_grow">Grow and shrink</string>
+    <string name="pref_animation_style_grow_value" translatable="false">grow_shrink</string>
+
+    <string name="pref_colors_inhale_key" translatable="false">colors_inhale_list</string>
+    <string name="pref_colors_inhale_label">Inhale color</string>
+    <string name="pref_colors_exhale_key" translatable="false">colors_exhale_list</string>
+    <string name="pref_colors_exhale_label">Exhale color</string>
+    <string name="pref_colors_inhale_default" translatable="false">@string/pref_colors_red_value</string>
+    <string name="pref_colors_exhale_default" translatable="false">@string/pref_colors_blue_value</string>
+    <string name="pref_colors_red">Red</string>
+    <string name="pref_colors_green">Green</string>
+    <string name="pref_colors_blue">Blue</string>
+    <string name="pref_colors_yellow">Yellow</string>
+    <string name="pref_colors_black">Black</string>
+    <string name="pref_colors_red_value" translatable="false">red_value</string>
+    <string name="pref_colors_green_value" translatable="false">green_value</string>
+    <string name="pref_colors_blue_value" translatable="false">blue_value</string>
+    <string name="pref_colors_yellow_value" translatable="false">yellow_value</string>
+    <string name="pref_colors_black_value" translatable="false">black_value</string>
+
+    <string name="pref_colors_background_key" translatable="false">colors_background_list</string>
+    <string name="pref_colors_background_label">Background color</string>
+    <string name="pref_colors_background_default" translatable="false">@string/pref_colors_black_value</string>
+
+</resources>

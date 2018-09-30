@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="inhale_uplifting_default">3</integer>
+    <integer name="exhale_uplifting_default">3</integer>
+    <integer name="hold_uplifting_default">2</integer>
+    <integer name="pause_uplifting_default">1</integer>
+
+    <integer name="inhale_relaxing_default">3</integer>
+    <integer name="exhale_relaxing_default">6</integer>
+    <integer name="hold_relaxing_default">1</integer>
+    <integer name="pause_relaxing_default">1</integer>
+
+    <integer name="inhale_meditative_default">6</integer>
+    <integer name="exhale_meditative_default">6</integer>
+    <integer name="hold_meditative_default">2</integer>
+    <integer name="pause_meditative_default">2</integer>
+
+    <integer name="pref_seekbar_max">10</integer>
+</resources>

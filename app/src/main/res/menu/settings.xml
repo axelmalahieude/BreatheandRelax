@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_title_settings"
+        android:icon="@drawable/ic_overflow_menu"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_help"
+        android:title="@string/menu_title_help"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_restart"
+        android:title="@string/menu_title_reset"
+        app:showAsAction="never"/>
+</menu>

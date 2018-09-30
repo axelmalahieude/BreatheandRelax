@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Breathing style ListPreference values -->
+    <string-array name="breathing_style_list">
+        <item>@string/uplifting_breathing</item>
+        <item>@string/relaxing_breathing</item>
+        <item>@string/meditative_breathing</item>
+        <item>@string/custom_breathing</item>
+    </string-array>
+    <string-array name="breathing_style_list_values">
+        <item>@string/pref_list_uplifting_breathing_value</item>
+        <item>@string/pref_list_relaxing_breathing_value</item>
+        <item>@string/pref_list_meditative_breathing_value</item>
+        <item>@string/pref_list_custom_breathing_value</item>
+    </string-array>
+
+    <!-- Inhale/exhale ListPreference colors -->
+    <string-array name="color_list">
+        <item>@string/pref_colors_red</item>
+        <item>@string/pref_colors_green</item>
+        <item>@string/pref_colors_blue</item>
+        <item>@string/pref_colors_yellow</item>
+    </string-array>
+    <string-array name="color_list_values">
+        <item>@string/pref_colors_red_value</item>
+        <item>@string/pref_colors_green_value</item>
+        <item>@string/pref_colors_blue_value</item>
+        <item>@string/pref_colors_yellow_value</item>
+    </string-array>
+
+    <!-- Background color ListPreference colors -->
+    <string-array name="background_color_list">
+        <item>@string/pref_colors_red</item>
+        <item>@string/pref_colors_green</item>
+        <item>@string/pref_colors_blue</item>
+        <item>@string/pref_colors_black</item>
+    </string-array>
+    <string-array name="background_color_list_values">
+        <item>@string/pref_colors_red_value</item>
+        <item>@string/pref_colors_green_value</item>
+        <item>@string/pref_colors_blue_value</item>
+        <item>@string/pref_colors_black_value</item>
+    </string-array>
+
+    <!-- Animation style ListPreference -->
+    <string-array name="animation_style_list">
+        <item>@string/pref_animation_style_grow</item>
+        <item>@string/pref_animation_style_circle</item>
+    </string-array>
+    <string-array name="animation_style_list_values">
+        <item>@string/pref_animation_style_grow_value</item>
+        <item>@string/pref_animation_style_circle_value</item>
+    </string-array>
+</resources>
