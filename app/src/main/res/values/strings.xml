@@ -61,6 +61,11 @@
     <string name="pref_enable_stopwatch_summary_off">Clock will count down</string>
     <string name="pref_enable_stopwatch_summary_on">Clock will count up</string>
 
+    <string name="pref_switch_sound_key" translatable="false">enable_sound</string>
+    <string name="pref_switch_sound_label">Enable sound</string>
+    <string name="pref_switch_summary_on">Sound on</string>
+    <string name="pref_switch_summary_off">Sound off</string>
+
     <string name="pref_seekbar_inhale_key" translatable="false">seekbar_inhale</string>
     <string name="pref_seekbar_inhale_label">Inhale for</string>
 

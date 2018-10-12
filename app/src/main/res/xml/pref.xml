@@ -49,6 +49,11 @@
         android:defaultValue="@string/pref_colors_exhale_default"
         android:entries="@array/color_list"
         android:entryValues="@array/color_list_values"/>
+    <SwitchPreference
+        android:key="@string/pref_switch_sound_key"
+        android:title="@string/pref_switch_sound_label"
+        android:summaryOn="@string/pref_switch_summary_on"
+        android:summaryOff="@string/pref_switch_summary_off"/>
     <CheckBoxPreference
         android:defaultValue="@bool/pref_enable_stopwatch_default"
         android:key="@string/pref_enable_stopwatch_key"
