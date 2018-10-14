@@ -24,6 +24,11 @@ import com.axel.breatheandrelax.fragment.SingleMessageDialogFragment;
 import com.axel.breatheandrelax.fragment.TimePickerDialogFragment;
 import com.axel.breatheandrelax.view.DualChronometer;
 
+/**
+ * Activity class for the main breathing screen. Contains an animation and a timer,
+ * with an action bar for navigation
+ */
+
 public class MeditationActivity extends AppCompatActivity implements
         DualChronometer.OnChronometerFinishedListener,
         SharedPreferences.OnSharedPreferenceChangeListener,
@@ -51,8 +56,12 @@ public class MeditationActivity extends AppCompatActivity implements
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_meditation);
+
+        // View references
         mChronometer = findViewById(R.id.chronometer);
         mIntroTextView = findViewById(R.id.tv_tap_to_start);
+
+        // Adjust action bar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -68,7 +77,7 @@ public class MeditationActivity extends AppCompatActivity implements
         // Create the animation
         createAnimation(sharedPreferences); // load the remainder of the preferences to make the animation
 
-        // Set appropriate times if the activity is returning from being destroyed
+        // Set appropriate defaults if the activity is returning from being destroyed (i.e. orientation change)
         if (savedInstanceState != null) {
             mMeditationTime = savedInstanceState.getLong(CURRENT_MEDITATION_TIME);
             mMeditationStartTime = savedInstanceState.getLong(START_MEDITATION_TIME);
@@ -89,6 +98,7 @@ public class MeditationActivity extends AppCompatActivity implements
             }
         });
 
+        // If user clicks on timer and it is in timer mode, launch TimePicker
         mChronometer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +108,10 @@ public class MeditationActivity extends AppCompatActivity implements
         });
     }
 
+    /**
+     * Preserves current state before destroying the activity
+     * @param outState the state to preserve
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putLong(CURRENT_MEDITATION_TIME, mMeditationTime);
@@ -105,11 +119,9 @@ public class MeditationActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
+    /**
+     * Safely dispose of SharedPreferences when destroying activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -117,12 +129,20 @@ public class MeditationActivity extends AppCompatActivity implements
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * Stops the breathing animation when navigating away from the activity
+     */
     @Override
     protected void onPause() {
         super.onPause();
         stopMeditation();
     }
 
+    /**
+     * Creates the action bar menu
+     * @param menu is the menu to inflate
+     * @return true if the menu was successfully created
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -130,6 +150,11 @@ public class MeditationActivity extends AppCompatActivity implements
         return true;
     }
 
+    /**
+     * Manages menu item clicks
+     * @param item the menu item that was clicked
+     * @return true if the menu click was successfully handled
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -150,7 +175,7 @@ public class MeditationActivity extends AppCompatActivity implements
 
     /**
      * Called via interface when the chronometer has finished counting down. Will never be called
-     * if the chronometer is counting up.
+     * if the chronometer is counting up (since it can count to infinity)
      */
     @Override
     public void onChronometerFinished() {
@@ -161,24 +186,23 @@ public class MeditationActivity extends AppCompatActivity implements
         startActivity(i);
     }
 
+    /**
+     * Sets the chronometer to start at a specified time, then starts the animation
+     * @param minutes number of minutes to start the chronometer at
+     * @param seconds number of seconds to start the chronometer at
+     */
     @Override
     public void setStopWatchTime(int minutes, int seconds) {
         mMeditationTime = mMeditationStartTime = ((minutes * 60) + seconds) * 1000;
         startMeditation();
     }
 
-    @Override
-    public void onDialogCancelled() {
-        stopMeditation();
-        mAskForTime = true;
-    }
-
     /**
-     * Creates the animation to be displayed based on the selection in Preferences
+     * Creates the animation to be displayed with parameters from SharedPreferences
      * @param sharedPreferences the preferences to read from
      */
     public void createAnimation(SharedPreferences sharedPreferences) {
-        // Fetch time breakdown from preferences
+        // Fetch breathing times from preferences
         int inhaleTime = sharedPreferences.getInt(getString(R.string.pref_seekbar_inhale_key), getResources().getInteger(R.integer.inhale_uplifting_default));
         int exhaleTime = sharedPreferences.getInt(getString(R.string.pref_seekbar_exhale_key), getResources().getInteger(R.integer.exhale_uplifting_default));
         int holdTime = sharedPreferences.getInt(getString(R.string.pref_seekbar_hold_key), getResources().getInteger(R.integer.hold_uplifting_default));
@@ -198,10 +222,14 @@ public class MeditationActivity extends AppCompatActivity implements
         mAnimation.setExhaleColor(colorStringToInt(colorExhale));
     }
 
+    /**
+     * Launches the help dialog
+     */
     public void launchHelpDialog() {
         stopMeditation();
-        DialogFragment help = new SingleMessageDialogFragment();
 
+        // Create dialog and set arguments
+        DialogFragment help = new SingleMessageDialogFragment();
         Bundle args = new Bundle();
         args.putString(SingleMessageDialogFragment.MESSAGE_KEY, getResources().getString(R.string.help_text));
         args.putString(SingleMessageDialogFragment.BUTTON_LABEL_KEY, getResources().getString(R.string.acknowledgement_got_it));
@@ -210,15 +238,20 @@ public class MeditationActivity extends AppCompatActivity implements
         help.show(getSupportFragmentManager(), "help");
     }
 
+    /**
+     * Launch the TimePicker, which is necessary if the timer mode is enabled
+     */
     public void launchTimePicker() {
         stopMeditation();
+
+        // Create the dialog and launch it
         DialogFragment dialog = new TimePickerDialogFragment();
         dialog.show(getSupportFragmentManager(), "timepicker");
         mAskForTime = false;
     }
 
     /**
-     * Stops the breathing animation completely with no possibility to resume.
+     * Stops the breathing animation.
      */
     private void stopMeditation() {
         if (mAnimation.isPlaying()) {
@@ -259,6 +292,11 @@ public class MeditationActivity extends AppCompatActivity implements
         mChronometer.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Listens for changes in Preferences and updates the activity's parameters accordingly
+     * @param sharedPreferences the reference to SharedPreferences we can query from
+     * @param key the preference that was modified
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // If any preferences were changed, SettingsActivity was launched, in which case we
@@ -266,6 +304,7 @@ public class MeditationActivity extends AppCompatActivity implements
         stopMeditation();
         mMeditationTime = mMeditationStartTime;
 
+        // Determines which preference was changed and updates the animation accordingly
         if (key.equals(getString(R.string.pref_seekbar_inhale_key))) {
             mAnimation.setInhaleTime(sharedPreferences.getInt(key, getResources().getInteger(R.integer.inhale_uplifting_default)) * 1000);
         } else if (key.equals(getString(R.string.pref_seekbar_exhale_key))) {
@@ -293,8 +332,8 @@ public class MeditationActivity extends AppCompatActivity implements
 
     /**
      * Converts a resource String to the associated color
-     * @param colorString the String to convert
-     * @return an integer representing colorString's associated color
+     * @param colorString the String to convert (found in strings.xml)
+     * @return an integer representing colorString's associated color in hexadecimal
      */
     public int colorStringToInt(String colorString) {
         if (colorString.equals(getResources().getString(R.string.pref_colors_red_value)))
@@ -308,6 +347,19 @@ public class MeditationActivity extends AppCompatActivity implements
         else return -1;
     }
 
+    /**
+     * Interface method called when returning from an open dialog. Sets the flag to
+     * ask the user for how long to meditate for (if timer mode is enabled)
+     */
+    @Override
+    public void onDialogCancelled() {
+        stopMeditation();
+        mAskForTime = true;
+    }
+
+    /**
+     * Interface method called when dismissing a dialog. Automatically starts meditation.
+     */
     @Override
     public void onDialogDismissed() {
         startMeditation();

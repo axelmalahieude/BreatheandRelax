@@ -13,55 +13,73 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
+/**
+ * One of the breathing animations. Extends from Movable, which takes care of most
+ * generic animation capabilities. Notice that this class closely resembles SizeAnimation.
+ * This is a side effect that arises from making Movable generic to work with all types
+ * of animations, not just those that have
+ */
+
 public class BallAnimation extends Movable {
 
-    // Data members
-    private int mBallHeight;
+    // Animation-specific data members
+    private ImageView mBall; // object to animate
+    private int mBallHeight; // dimensions of the animated object
+    private ValueAnimator mColorAnimation; // animation for color changes
 
-    // View references
-    private ImageView mBall;
+    // UI data members
     private ConstraintLayout mScreen;
-
-    private ValueAnimator mColorAnimation;
 
     /**
      * Constructor creates new ImageView with the specified item.
      * @param context is the context within which to generate the new image.
+     * @param inhaleTime time to inhale for
+     * @param exhaleTime time to exhale for
+     * @param holdTime time to pause after inhaling
+     * @param pauseTime time to pause after exhaling
      */
     public BallAnimation(Context context, final int inhaleTime, final int exhaleTime,
                          final int holdTime, final int pauseTime) {
         super(context, inhaleTime, exhaleTime, holdTime, pauseTime);
-        mAnimation = ValueAnimator.ofFloat(0f, 1f); // arguments don't matter
 
-        // Create the object that will be animated
         mScreen = ((Activity) context).findViewById(R.id.cl_main_layout);
 
-        // Add the object to the screen
+        // Create the animation
+        mAnimation = ValueAnimator.ofFloat(0f, 1f);
+
+        // Create the object to animate
         mBall = new ImageView(context);
         mBall.setImageDrawable(context.getResources().getDrawable(R.drawable.ball));
     }
 
 
     /**
-     * Override for Movable.startBreathing to get the layout dimensions before starting any animations
+     * Override for Movable.startBreathing
+     * Fetches layout dimensions before starting any animations
+     * Refreshes UI
      */
     public void startBreathing() {
-        // Reset the color
-        mBall.getDrawable().setTint(getInhaleColor());
+        // Add animated object to the screen
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
+
+        // Refresh UI
+        mBall.getDrawable().setTint(getInhaleColor()); // reset color
         if (mBall.getParent() != null)
             ((ViewGroup) mBall.getParent()).removeView(mBall);
         mScreen.addView(mBall, params);
 
         // Get the height of the ImageView that depicts the ball as soon as it is drawn
         final ImageView ball = mBall;
-        if (ball.getHeight() != 0) {
+        if (ball.getHeight() != 0) // getHeight() may fail if the ImageView hasn't been drawn yet
+        {
             super.startBreathing();
             return;
         }
+        // If getHeight() fails, wait for the ImageView to be drawn before continuing, since
+        // we will need getHeight() as soon as startBreathing() returns
         final ViewTreeObserver viewTreeObserver = ball.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -73,6 +91,9 @@ public class BallAnimation extends Movable {
         });
     }
 
+    /**
+     * Stops the breathing animation, deallocating any resources
+     */
     public void stopBreathing() {
         super.stopBreathing();
         if (mColorAnimation != null)
@@ -108,7 +129,7 @@ public class BallAnimation extends Movable {
         // Mark the switch in state
         toggleInhale();
 
-        // Once we've finished moving, hold our breath
+        // Wait for animation to finish before holding the breath
         mAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -122,6 +143,7 @@ public class BallAnimation extends Movable {
      * Controls holding the breath and changing animation colors.
      */
     protected void holdBreath() {
+        // Create color animation
         if (justInhaled()) {
             mColorAnimation = ValueAnimator.ofArgb(getInhaleColor(), getExhaleColor());
             mColorAnimation.setDuration(getHoldTime());
@@ -136,6 +158,8 @@ public class BallAnimation extends Movable {
                 mBall.getDrawable().setTint((int) animation.getAnimatedValue());
             }
         });
+
+        // Wait for animation to finish before breathing again
         mColorAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -143,6 +167,7 @@ public class BallAnimation extends Movable {
                 breathe();
             }
         });
+
         mColorAnimation.start();
     }
 
@@ -158,6 +183,7 @@ public class BallAnimation extends Movable {
         final Path path = new Path();
         float arcRadius = getScreenCenterX() / 2f;
 
+        // Determine the starting angle based on screen orientation
         float startAngle = 270f;
         if (mContext.getResources().getConfiguration().orientation ==
                 Configuration.ORIENTATION_LANDSCAPE) {
@@ -165,6 +191,7 @@ public class BallAnimation extends Movable {
             angle *= -1; // landscape switches animation direction
         }
 
+        // Generate the path through which to arc the object
         path.arcTo(getScreenCenterX() - arcRadius,
                 getScreenCenterY() - arcRadius,
                 getScreenCenterX() + arcRadius,
@@ -172,7 +199,7 @@ public class BallAnimation extends Movable {
                 startAngle, angle, true
         );
 
-        // Update the animation periodically
+        // Update the animation periodically across the path
         mAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator va) {

@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 import com.axel.breatheandrelax.R;
 
+/**
+ * Activity class for settings. Uses a SettingsFragment for complete implementation.
+ */
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
