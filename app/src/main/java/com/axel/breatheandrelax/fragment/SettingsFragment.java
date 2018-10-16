@@ -20,14 +20,27 @@ import com.axel.breatheandrelax.R;
 
 import java.util.List;
 
-public class SettingsFragment extends PreferenceFragmentCompat
-implements SharedPreferences.OnSharedPreferenceChangeListener{
+/**
+ * SettingsFragment contained within SettingsActivity. Takes care of all preference-related
+ * operations.
+ */
 
+public class SettingsFragment extends PreferenceFragmentCompat
+    implements SharedPreferences.OnSharedPreferenceChangeListener{
+
+    /**
+     * Populates the fragment with the proper set of preferences
+     * @param bundle data arguments
+     * @param s pref name
+     */
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
     }
 
+    /**
+     * Unregister the SharedPreferenceChangeListener when the activity goes into the background.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -35,6 +48,10 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * Register the SharedPreferenceChangeListener to properly adapt to changes in settings
+     * while the activity is in the foreground.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -49,7 +66,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
      * Override to remove strange indentation in left margin of each preference.
      * Created with solution from https://stackoverflow.com/questions/18509369/android-how-to-get-remove-margin-padding-in-preference-screen.
      * @param preferenceScreen is the preference screen to manipulate
-     * @return the preference RecyclerView adapter
+     * @return the preference adapter
      */
     @Override
     protected RecyclerView.Adapter onCreateAdapter(PreferenceScreen preferenceScreen) {
@@ -71,17 +88,28 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
         };
     }
 
+    /**
+     * Used as a part of onCreateAdapter to remove strange left margin.
+     * @param view the parent view to remove padding from
+     */
     private void setZeroPaddingToLayoutChildren(View view) {
         if (!(view instanceof ViewGroup))
             return;
         ViewGroup viewGroup = (ViewGroup) view;
         int childCount = viewGroup.getChildCount();
+
+        // Remove padding from each child
         for (int i = 0; i < childCount; i++) {
             setZeroPaddingToLayoutChildren(viewGroup.getChildAt(i));
             viewGroup.setPaddingRelative(0, viewGroup.getPaddingTop(), viewGroup.getPaddingEnd(), viewGroup.getPaddingBottom());
         }
     }
 
+    /**
+     * Listens for changes in preferences to update the display.
+     * @param sharedPreferences the set of preferences to read from
+     * @param key the preference that was changed
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
@@ -125,6 +153,8 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
                     getResources().getString(R.string.pref_seekbar_hold_key))).getValue();
             int pauseTime = ((SeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_pause_key))).getValue();
+            // This block listens for changes in the preset options and signals an update to
+            // the SeekBars appropriately
             if (inhaleTime == getResources().getInteger(R.integer.inhale_uplifting_default) &&
                     exhaleTime == getResources().getInteger(R.integer.exhale_uplifting_default) &&
                     holdTime == getResources().getInteger(R.integer.hold_uplifting_default) &&

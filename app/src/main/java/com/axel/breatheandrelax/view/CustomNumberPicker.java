@@ -12,15 +12,30 @@ import android.widget.NumberPicker;
  */
 public class CustomNumberPicker extends NumberPicker {
 
+    /**
+     * Necessary constructor to override NumberPicker
+     * @param context the parent activity's context
+     */
     public CustomNumberPicker(Context context) {
         super(context);
     }
 
+    /**
+     * Necessary constructor to override NumberPicker
+     * @param context the parent activity's context
+     * @param attrs the XML attributes defining the view
+     */
     public CustomNumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttributes(attrs);
     }
 
+    /**
+     * Necessary constructor to override NumberPicker
+     * @param context the parent activity's context
+     * @param attrs the XML attributes defining the view
+     * @param defStyleAttr the style for the XML attributes
+     */
     public CustomNumberPicker (Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setAttributes(attrs);
@@ -53,8 +68,8 @@ public class CustomNumberPicker extends NumberPicker {
         String[] minutes = new String[maxValue - minValue + 1];
         for (int i = minValue, j = 0; i <= maxValue; i++, j++) {
             String number = String.valueOf(i);
-            if (twoDigitNumbers && i < 10)
-                number = "0" + String.valueOf(i); // prepend 0
+            if (twoDigitNumbers && i < 10) // prepend 0 if attribute is set
+                number = "0" + String.valueOf(i);
             minutes[j] = number;
         }
         setDisplayedValues(minutes);
