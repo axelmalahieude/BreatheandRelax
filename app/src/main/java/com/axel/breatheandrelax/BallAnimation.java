@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
