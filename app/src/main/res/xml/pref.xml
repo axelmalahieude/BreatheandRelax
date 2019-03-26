@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/preferences">
     <ListPreference
         android:defaultValue="@string/pref_list_uplifting_breathing_value"
@@ -55,4 +55,4 @@
         android:summaryOff="@string/pref_enable_stopwatch_summary_off"
         android:summaryOn="@string/pref_enable_stopwatch_summary_on"
         android:title="@string/pref_enable_stopwatch_label"/>
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>
