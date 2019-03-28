@@ -119,12 +119,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
-            ListPreference listPreference = (ListPreference) findPreference(key);
+            ListPreference listPreference = findPreference(key);
             String currentValue = listPreference.getValue();
             CustomSeekBarPreference inhaleSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_inhale_key));
-            SeekBarPreference exhaleSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_exhale_key));
-            SeekBarPreference holdSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_hold_key));
-            SeekBarPreference pauseSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_pause_key));
+            CustomSeekBarPreference exhaleSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_exhale_key));
+            CustomSeekBarPreference holdSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_hold_key));
+            CustomSeekBarPreference pauseSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_pause_key));
             if (currentValue.equals(getResources().getString(R.string.pref_list_uplifting_breathing_value))) {
                 inhaleSeekBar.setValue(getResources().getInteger(R.integer.inhale_uplifting_default));
                 exhaleSeekBar.setValue(getResources().getInteger(R.integer.exhale_uplifting_default));
@@ -147,15 +147,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
                  key.equals(getResources().getString(R.string.pref_seekbar_exhale_key)) ||
                  key.equals(getResources().getString(R.string.pref_seekbar_hold_key)) ||
                  key.equals(getResources().getString(R.string.pref_seekbar_pause_key))){
-            ListPreference listPreference = (ListPreference) getPreferenceManager()
+            ListPreference listPreference = getPreferenceManager()
                     .findPreference(getResources().getString(R.string.pref_list_breath_style_key));
             int inhaleTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_inhale_key))).getValue();
-            int exhaleTime = ((SeekBarPreference) getPreferenceManager().findPreference(
+            int exhaleTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_exhale_key))).getValue();
-            int holdTime = ((SeekBarPreference) getPreferenceManager().findPreference(
+            int holdTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_hold_key))).getValue();
-            int pauseTime = ((SeekBarPreference) getPreferenceManager().findPreference(
+            int pauseTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_pause_key))).getValue();
             // This block listens for changes in the preset options and signals an update to
             // the SeekBars appropriately

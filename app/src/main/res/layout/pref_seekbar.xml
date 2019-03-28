@@ -12,6 +12,7 @@
         android:layout_marginBottom="8dp">
 
         <TextView
+            android:id="@+id/tv_seekbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
@@ -36,7 +37,6 @@
         android:progressTint="@color/breathe_blue"
         android:minHeight="32dp"
         android:minWidth="32dp"
-        android:max="@integer/pref_seekbar_max"
         android:thumbTint="@color/breathe_blue" />
 
 </LinearLayout>
