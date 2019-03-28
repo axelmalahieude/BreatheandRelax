@@ -15,5 +15,10 @@
     <integer name="hold_meditative_default">2</integer>
     <integer name="pause_meditative_default">2</integer>
 
+    <integer name="inhale_default">@integer/inhale_uplifting_default</integer>
+    <integer name="exhale_default">@integer/exhale_uplifting_default</integer>
+    <integer name="hold_default">@integer/hold_uplifting_default</integer>
+    <integer name="pause_default">@integer/pause_uplifting_default</integer>
+
     <integer name="pref_seekbar_max">10</integer>
 </resources>

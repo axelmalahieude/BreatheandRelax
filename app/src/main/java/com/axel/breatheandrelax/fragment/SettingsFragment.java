@@ -13,10 +13,13 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.axel.breatheandrelax.R;
+import com.axel.breatheandrelax.view.CustomSeekBarPreference;
 
 import java.util.List;
 
@@ -112,12 +115,13 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d("SettingsFragment.java", "preference changed");
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
             ListPreference listPreference = (ListPreference) findPreference(key);
             String currentValue = listPreference.getValue();
-            SeekBarPreference inhaleSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_inhale_key));
+            CustomSeekBarPreference inhaleSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_inhale_key));
             SeekBarPreference exhaleSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_exhale_key));
             SeekBarPreference holdSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_hold_key));
             SeekBarPreference pauseSeekBar = (SeekBarPreference) getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_pause_key));
@@ -145,7 +149,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                  key.equals(getResources().getString(R.string.pref_seekbar_pause_key))){
             ListPreference listPreference = (ListPreference) getPreferenceManager()
                     .findPreference(getResources().getString(R.string.pref_list_breath_style_key));
-            int inhaleTime = ((SeekBarPreference) getPreferenceManager().findPreference(
+            int inhaleTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_inhale_key))).getValue();
             int exhaleTime = ((SeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_exhale_key))).getValue();
