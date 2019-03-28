@@ -36,12 +36,10 @@
         android:key="@string/pref_animation_style_key"
         android:summary="%s"
         android:title="@string/pref_animation_style_label" />
-    <ListPreference
-        android:defaultValue="@string/pref_colors_inhale_default"
-        android:entries="@array/color_list"
-        android:entryValues="@array/color_list_values"
+    <com.axel.breatheandrelax.view.ColorPickerPreference
+        android:defaultValue="@color/inhale_default_color"
+        android:entries="@array/color_list_values"
         android:key="@string/pref_colors_inhale_key"
-        android:summary="%s"
         android:title="@string/pref_colors_inhale_label" />
     <ListPreference
         android:defaultValue="@string/pref_colors_exhale_default"

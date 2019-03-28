@@ -21,6 +21,7 @@ import com.axel.breatheandrelax.R;
 import com.axel.breatheandrelax.SizeAnimation;
 import com.axel.breatheandrelax.fragment.SingleMessageDialogFragment;
 import com.axel.breatheandrelax.fragment.TimePickerDialogFragment;
+import com.axel.breatheandrelax.util.Tools;
 import com.axel.breatheandrelax.view.DualChronometer;
 
 /**
@@ -216,9 +217,9 @@ public class MeditationActivity extends AppCompatActivity implements
 
         // Set the new animation's colors
         String colorInhale = sharedPreferences.getString(getResources().getString(R.string.pref_colors_inhale_key), getResources().getString(R.string.pref_colors_inhale_default));
-        mAnimation.setInhaleColor(colorStringToInt(colorInhale));
+        mAnimation.setInhaleColor(Tools.colorStringToInt(getResources(), colorInhale));
         String colorExhale = sharedPreferences.getString(getResources().getString(R.string.pref_colors_exhale_key), getResources().getString(R.string.pref_colors_exhale_default));
-        mAnimation.setExhaleColor(colorStringToInt(colorExhale));
+        mAnimation.setExhaleColor(Tools.colorStringToInt(getResources(), colorExhale));
     }
 
     /**
@@ -320,30 +321,13 @@ public class MeditationActivity extends AppCompatActivity implements
                 mMeditationStartTime = mMeditationTime = 0;
         } else if (key.equals(getResources().getString(R.string.pref_colors_inhale_key))) {
             String colorString = sharedPreferences.getString(key, getResources().getString(R.string.pref_colors_inhale_default));
-            mAnimation.setInhaleColor(colorStringToInt(colorString));
+            mAnimation.setInhaleColor(Tools.colorStringToInt(getResources(), colorString));
         } else if (key.equals(getResources().getString(R.string.pref_colors_exhale_key))) {
             String colorString = sharedPreferences.getString(key, getResources().getString(R.string.pref_colors_exhale_default));
-            mAnimation.setExhaleColor(colorStringToInt(colorString));
+            mAnimation.setExhaleColor(Tools.colorStringToInt(getResources(), colorString));
         } else if (key.equals(getResources().getString(R.string.pref_animation_style_key))){
             createAnimation(sharedPreferences);
         }
-    }
-
-    /**
-     * Converts a resource String to the associated color
-     * @param colorString the String to convert (found in strings.xml)
-     * @return an integer representing colorString's associated color in hexadecimal
-     */
-    public int colorStringToInt(String colorString) {
-        if (colorString.equals(getResources().getString(R.string.pref_colors_red_value)))
-            return getResources().getColor(R.color.breathe_red);
-        if (colorString.equals(getResources().getString(R.string.pref_colors_green_value)))
-            return getResources().getColor(R.color.breathe_green);
-        if (colorString.equals(getResources().getString(R.string.pref_colors_blue_value)))
-            return getResources().getColor(R.color.breathe_blue);
-        if (colorString.equals(getResources().getString(R.string.pref_colors_yellow_value)))
-            return getResources().getColor(R.color.breathe_yellow);
-        else return -1;
     }
 
     /**
