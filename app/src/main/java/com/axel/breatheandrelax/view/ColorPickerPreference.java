@@ -1,6 +1,9 @@
 package com.axel.breatheandrelax.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -11,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.axel.breatheandrelax.R;
+import com.axel.breatheandrelax.util.Tools;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
@@ -64,7 +68,6 @@ public class ColorPickerPreference extends Preference {
             mKey = stylizedAttributes.getString(R.styleable.ColorPickerPreference_android_key);
             mDefaultColor = stylizedAttributes.getColor(R.styleable.ColorPickerPreference_android_defaultValue, getContext().getResources().getColor(R.color.white));
             mColors = stylizedAttributes.getTextArray(R.styleable.ColorPickerPreference_android_entries);
-            Log.d(TAG, String.valueOf(mColors[0]));
         } finally {
             stylizedAttributes.recycle();
         }
@@ -81,65 +84,50 @@ public class ColorPickerPreference extends Preference {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
+        // Fetch references for the views in this preference
         mTvTitle = (TextView) holder.findViewById(R.id.pref_cb_title);
         mCb1 = (CheckBox) holder.findViewById(R.id.pref_cb_1);
         mCb2 = (CheckBox) holder.findViewById(R.id.pref_cb_2);
         mCb3 = (CheckBox) holder.findViewById(R.id.pref_cb_3);
         mCb4 = (CheckBox) holder.findViewById(R.id.pref_cb_4);
+        final CheckBox[] checkBoxes = new CheckBox[] { mCb1, mCb2, mCb3, mCb4 };
+
+        // Check the default color
+        SharedPreferences sharedPreferences = this.getSharedPreferences();
+        String currentColor = sharedPreferences.getString(mKey, "Error");
+        Log.d(TAG, currentColor);
+
+        // Set the checkboxes to be colored according to which color they select
+        int[][] states = new int[][]{
+                new int[] { android.R.attr.state_checked },
+                new int[] { -android.R.attr.state_checked }
+        };
+        for (int i = 0; i < checkBoxes.length; i++) {
+            if (mColors[i].toString().equals(currentColor))
+                checkBoxes[i].setChecked(true);
+            int color = Tools.colorStringToInt(getContext().getResources(), mColors[i].toString());
+            int[] colorArray = new int[] { color, color };
+            checkBoxes[i].setButtonTintList(new ColorStateList(states, colorArray));
+        }
 
         mTvTitle.setText(mTitle);
 
-        mCb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mCb2.setChecked(false);
-                    mCb3.setChecked(false);
-                    mCb4.setChecked(false);
-                } else if (allNotChecked()){
-                    mCb1.setChecked(true);
+        for (final CheckBox checkBox : checkBoxes) {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // Make sure only this checkbox is checked by unchecking all other checkboxes
+                    if (isChecked) {
+                        for (CheckBox c : checkBoxes)
+                            if (c != checkBox) c.setChecked(false);
+                    }
+                    // Make sure this checkbox stays checked if it was already checked
+                    else if (allNotChecked()) {
+                        checkBox.setChecked(true);
+                    }
                 }
-            }
-        });
-
-        mCb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mCb1.setChecked(false);
-                    mCb3.setChecked(false);
-                    mCb4.setChecked(false);
-                } else if (allNotChecked()){
-                    mCb2.setChecked(true);
-                }
-            }
-        });
-
-        mCb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mCb2.setChecked(false);
-                    mCb1.setChecked(false);
-                    mCb4.setChecked(false);
-                } else if (allNotChecked()){
-                    mCb3.setChecked(true);
-                }
-            }
-        });
-
-        mCb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mCb2.setChecked(false);
-                    mCb3.setChecked(false);
-                    mCb1.setChecked(false);
-                } else if (allNotChecked()){
-                    mCb4.setChecked(true);
-                }
-            }
-        });
+            });
+        }
 
     }
 
@@ -147,7 +135,7 @@ public class ColorPickerPreference extends Preference {
      * Determine whether no checkboxes are checked
      * @return true if no checkboxes are checked, false if 1 or more are checked
      */
-    public boolean allNotChecked() {
+    private boolean allNotChecked() {
         return !mCb1.isChecked() && !mCb2.isChecked() && !mCb3.isChecked() && !mCb4.isChecked();
     }
 }
