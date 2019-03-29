@@ -93,7 +93,7 @@ public class ColorPickerPreference extends Preference {
         final CheckBox[] checkBoxes = new CheckBox[] { mCb1, mCb2, mCb3, mCb4 };
 
         // Check the default color
-        SharedPreferences sharedPreferences = this.getSharedPreferences();
+        final SharedPreferences sharedPreferences = this.getSharedPreferences();
         String currentColor = sharedPreferences.getString(mKey, "Error");
         Log.d(TAG, currentColor);
 
@@ -112,14 +112,29 @@ public class ColorPickerPreference extends Preference {
 
         mTvTitle.setText(mTitle);
 
+        // Set the listeners for when a checkbox is clicked
         for (final CheckBox checkBox : checkBoxes) {
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     // Make sure only this checkbox is checked by unchecking all other checkboxes
                     if (isChecked) {
-                        for (CheckBox c : checkBoxes)
-                            if (c != checkBox) c.setChecked(false);
+                        for (CheckBox c : checkBoxes) {
+                            if (c != checkBox)
+                                c.setChecked(false);
+                        }
+
+                        // Apply the new color to SharedPreferences
+                        ColorStateList colorStateList = checkBox.getButtonTintList();
+                        int color;
+                        try {
+                            color = colorStateList.getColorForState(new int[] { android.R.attr.state_checked }, 0);
+                        } catch (NullPointerException e) {
+                            Log.d(TAG, "NPE");
+                            color = 0;
+                        }
+                        sharedPreferences.edit().putString(mKey, Tools.intColorToString(getContext().getResources(), color)).apply();
+
                     }
                     // Make sure this checkbox stays checked if it was already checked
                     else if (allNotChecked()) {

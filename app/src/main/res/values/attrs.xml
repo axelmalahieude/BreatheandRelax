@@ -13,7 +13,7 @@
     </declare-styleable>\
 
     <declare-styleable name="ColorPickerPreference">
-        <attr name="android:defaultValue" />
+        <attr name="android:defaultValue" /> <!-- default color resource -->
         <attr name="android:title" />
         <attr name="android:key" />
         <attr name="android:entries"/>

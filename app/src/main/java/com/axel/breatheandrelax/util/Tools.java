@@ -22,4 +22,16 @@ public class Tools {
             return resources.getColor(R.color.breathe_yellow);
         else return -1;
     }
+
+    public static String intColorToString(Resources resources, int color) {
+        if (color == resources.getColor(R.color.breathe_red))
+            return resources.getString(R.string.pref_colors_red_value);
+        if (color == resources.getColor(R.color.breathe_green))
+            return resources.getString(R.string.pref_colors_green_value);
+        if (color == resources.getColor(R.color.breathe_blue))
+            return resources.getString(R.string.pref_colors_blue_value);
+        if (color == resources.getColor(R.color.breathe_yellow))
+            return resources.getString(R.string.pref_colors_yellow_value);
+        else return "";
+    }
 }

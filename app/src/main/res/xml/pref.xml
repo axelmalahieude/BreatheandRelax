@@ -29,6 +29,16 @@
         android:title="@string/pref_seekbar_pause_label"
         custom:max="@integer/pref_seekbar_max"
         custom:startAt="@integer/pause_default" />
+    <com.axel.breatheandrelax.view.ColorPickerPreference
+        android:defaultValue="@color/inhale_default_color"
+        android:entries="@array/color_list_values"
+        android:key="@string/pref_colors_inhale_key"
+        android:title="@string/pref_colors_inhale_label" />
+    <com.axel.breatheandrelax.view.ColorPickerPreference
+        android:defaultValue="@color/exhale_default_color"
+        android:entries="@array/color_list_values"
+        android:key="@string/pref_colors_exhale_key"
+        android:title="@string/pref_colors_exhale_label" />
     <ListPreference
         android:defaultValue="@string/pref_animation_style_default"
         android:entries="@array/animation_style_list"
@@ -36,19 +46,7 @@
         android:key="@string/pref_animation_style_key"
         android:summary="%s"
         android:title="@string/pref_animation_style_label" />
-    <com.axel.breatheandrelax.view.ColorPickerPreference
-        android:defaultValue="@color/inhale_default_color"
-        android:entries="@array/color_list_values"
-        android:key="@string/pref_colors_inhale_key"
-        android:title="@string/pref_colors_inhale_label" />
-    <ListPreference
-        android:defaultValue="@string/pref_colors_exhale_default"
-        android:entries="@array/color_list"
-        android:entryValues="@array/color_list_values"
-        android:key="@string/pref_colors_exhale_key"
-        android:summary="%s"
-        android:title="@string/pref_colors_exhale_label" />
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="@bool/pref_enable_stopwatch_default"
         android:key="@string/pref_enable_stopwatch_key"
         android:summaryOff="@string/pref_enable_stopwatch_summary_off"
