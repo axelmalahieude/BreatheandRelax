@@ -1,12 +1,10 @@
 package com.axel.breatheandrelax.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.DialogPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -14,7 +12,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroupAdapter;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
-import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -23,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.axel.breatheandrelax.R;
 import com.axel.breatheandrelax.view.CustomListPreference;
+import com.axel.breatheandrelax.view.CustomPreferenceDialog;
 import com.axel.breatheandrelax.view.CustomSeekBarPreference;
 
 import java.util.List;
@@ -115,7 +113,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         if (preference instanceof CustomListPreference) {
-            DialogFragment df = CustomListPreference.CustomPreferenceDialogFragmentCompat.createFragment(preference.getKey());
+            DialogFragment df = CustomPreferenceDialog.createInstance(preference);
             df.setTargetFragment(this, 0);
             if (getFragmentManager() != null)
                 df.show(getFragmentManager(), null);

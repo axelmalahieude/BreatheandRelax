@@ -44,7 +44,6 @@
         android:entries="@array/animation_style_list"
         android:entryValues="@array/animation_style_list_values"
         android:key="@string/pref_animation_style_key"
-        android:summary="%s"
         android:title="@string/pref_animation_style_label" />
     <SwitchPreference
         android:defaultValue="@bool/pref_enable_stopwatch_default"

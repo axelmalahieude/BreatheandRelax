@@ -1,5 +1,6 @@
 package com.axel.breatheandrelax.view;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,6 +16,10 @@ import androidx.preference.PreferenceViewHolder;
 public class CustomListPreference extends DialogPreference {
 
     private static String TAG = CustomListPreference.class.getSimpleName();
+
+    private CharSequence[] mEntries;
+    private CharSequence[] mEntryValues;
+    private CharSequence mDefaultEntry;
 
     public CustomListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -32,38 +37,36 @@ public class CustomListPreference extends DialogPreference {
     }
 
     private void constructor(Context context, AttributeSet attrs, int defStyleAttr) {
+        TypedArray stylizedAttributes = getContext().getResources().obtainAttributes(attrs, R.styleable.CustomListPreference);
+        try {
+            mDefaultEntry = stylizedAttributes.getText(R.styleable.CustomListPreference_android_defaultValue);
+            mEntries = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entries);
+            mEntryValues = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entryValues);
+        } finally {
+            stylizedAttributes.recycle();
+        }
+    }
+
+    public String[] getEntries() {
+        String[] entries = new String[mEntries.length];
+        for (int i = 0; i < mEntries.length; i++)
+            entries[i] = mEntries[i].toString();
+        return entries;
+    }
+
+    public String[] getEntryValues() {
+        String[] entryValues = new String[mEntryValues.length];
+        for (int i = 0; i < mEntryValues.length; i++)
+            entryValues[i] = mEntryValues[i].toString();
+        return entryValues;
+    }
+
+    public String getDefaultEntry() {
+        return mDefaultEntry.toString();
     }
 
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-    }
-
-    public static class CustomPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
-        public static CustomPreferenceDialogFragmentCompat createFragment(String key) {
-            CustomPreferenceDialogFragmentCompat fragment = new CustomPreferenceDialogFragmentCompat();
-            Bundle args = new Bundle(1);
-            args.putString(ARG_KEY, key);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public void onDialogClosed(boolean positiveResult) {
-            Log.d(TAG, "Success");
-        }
-
-        @Override
-        protected View onCreateDialogView(Context context) {
-            View view = View.inflate(context, R.layout.dialog_single_message, null);
-            return view;
-        }
-
-        @Override
-        protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-            builder.setTitle(null);
-            builder.setPositiveButton(null, null);
-            builder.setNegativeButton(null, null);
-        }
     }
 }

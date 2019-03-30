@@ -71,13 +71,6 @@ public class ColorPickerPreference extends Preference {
         } finally {
             stylizedAttributes.recycle();
         }
-
-
-        // Get builtin Android attributes
-        int keyResourceID = attrs.getAttributeResourceValue(androidNamespace, "key", 0);
-        mKey = getContext().getResources().getString(keyResourceID);
-
-
     }
 
     @Override

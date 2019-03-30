@@ -19,4 +19,12 @@
         <attr name="android:entries"/>
     </declare-styleable>
 
+    <declare-styleable name="CustomListPreference">
+        <attr name="android:defaultValue" /> <!-- default selection (String) -->
+        <attr name="android:title" />
+        <attr name="android:key" />
+        <attr name="android:entries"/>
+        <attr name="android:entryValues"/>
+    </declare-styleable>
+
 </resources>
