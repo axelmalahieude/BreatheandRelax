@@ -39,7 +39,7 @@
         android:entries="@array/color_list_values"
         android:key="@string/pref_colors_exhale_key"
         android:title="@string/pref_colors_exhale_label" />
-    <ListPreference
+    <com.axel.breatheandrelax.view.CustomListPreference
         android:defaultValue="@string/pref_animation_style_default"
         android:entries="@array/animation_style_list"
         android:entryValues="@array/animation_style_list_values"

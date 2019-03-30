@@ -1,9 +1,12 @@
 package com.axel.breatheandrelax.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.preference.DialogPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.axel.breatheandrelax.R;
+import com.axel.breatheandrelax.view.CustomListPreference;
 import com.axel.breatheandrelax.view.CustomSeekBarPreference;
 
 import java.util.List;
@@ -106,6 +110,19 @@ public class SettingsFragment extends PreferenceFragmentCompat
             setZeroPaddingToLayoutChildren(viewGroup.getChildAt(i));
             viewGroup.setPaddingRelative(0, viewGroup.getPaddingTop(), viewGroup.getPaddingEnd(), viewGroup.getPaddingBottom());
         }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (preference instanceof CustomListPreference) {
+            DialogFragment df = CustomListPreference.CustomPreferenceDialogFragmentCompat.createFragment(preference.getKey());
+            df.setTargetFragment(this, 0);
+            if (getFragmentManager() != null)
+                df.show(getFragmentManager(), null);
+            else
+                Log.d(SettingsFragment.class.getSimpleName(), "Null fragment manager");
+        } else super.onDisplayPreferenceDialog(preference);
+
     }
 
     /**
