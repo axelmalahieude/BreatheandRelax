@@ -34,8 +34,8 @@
             android:id="@+id/pref_dialog_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:background="@color/transparent"
+            android:gravity="end|center_vertical"
             android:text="@string/cancel"
             android:textColor="@android:color/white" />
 

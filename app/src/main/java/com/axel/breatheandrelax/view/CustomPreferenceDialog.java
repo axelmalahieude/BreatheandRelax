@@ -4,15 +4,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.axel.breatheandrelax.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
@@ -63,7 +69,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         lv.setDivider(null);
         lv.setDividerHeight(0);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.listview_item, entries);
+        Adapter adapter = new Adapter(context, entries);
         lv.setAdapter(adapter);
 
         return view;
@@ -74,5 +80,33 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         builder.setTitle(null);
         builder.setPositiveButton(null, null);
         builder.setNegativeButton(null, null);
+    }
+
+    /**
+     * Extend the ArrayAdapter to have our custom view in the ListView
+     */
+    private class Adapter extends ArrayAdapter<String> {
+
+        private String[] mEntries;
+        private Context mContext;
+
+        private Adapter(Context context, String[] entries) {
+            super(context, R.layout.pref_list_dialog, entries);
+            mEntries = entries;
+            mContext = context;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
+            }
+
+            ((TextView) convertView.findViewById(R.id.pref_dialog_listview_text)).setText(getItem(position));
+            ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setVisibility(View.VISIBLE);
+
+            return convertView;
+        }
     }
 }
