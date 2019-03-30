@@ -59,7 +59,9 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         }
 
         ((TextView) view.findViewById(R.id.pref_dialog_title)).setText(title);
-        ListView lv = (ListView) view.findViewById(R.id.pref_dialog_listview);
+        ListView lv = view.findViewById(R.id.pref_dialog_listview);
+        lv.setDivider(null);
+        lv.setDividerHeight(0);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.listview_item, entries);
         lv.setAdapter(adapter);
