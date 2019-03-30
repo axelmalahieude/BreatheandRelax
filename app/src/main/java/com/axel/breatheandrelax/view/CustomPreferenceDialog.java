@@ -73,12 +73,15 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
         Adapter adapter = new Adapter(context, entries);
         lv.setAdapter(adapter);
-        Log.d(TAG, "Setting click listener");
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
-                Log.d(TAG, "Clicked element");
+                Log.d(TAG, "Number of children: " + parent.getCount());
+                for (int i = 0; i < parent.getCount(); i++) {
+                    if (parent.getChildAt(i) != view)
+                        ((RadioButton) parent.getChildAt(i).findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
+                }
             }
         });
 

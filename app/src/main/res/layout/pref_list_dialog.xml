@@ -27,11 +27,13 @@
             android:textStyle="bold" />
 
         <ListView
+            android:paddingTop="8dp"
             android:descendantFocusability="blocksDescendants"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
+            android:listSelector="@android:color/transparent"
             android:id="@+id/pref_dialog_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
