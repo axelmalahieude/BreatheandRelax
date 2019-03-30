@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_message_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants">
 
         <TextView
             android:id="@+id/pref_dialog_title"
@@ -18,19 +19,27 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:padding="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <ListView
+            android:descendantFocusability="blocksDescendants"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:id="@+id/pref_dialog_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:listSelector="@drawable/ball"/>
+            android:choiceMode="singleChoice"/>
 
         <Button
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:id="@+id/pref_dialog_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

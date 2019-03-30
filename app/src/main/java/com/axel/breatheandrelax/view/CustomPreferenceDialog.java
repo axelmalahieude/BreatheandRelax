@@ -2,9 +2,11 @@ package com.axel.breatheandrelax.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
@@ -71,6 +73,14 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
         Adapter adapter = new Adapter(context, entries);
         lv.setAdapter(adapter);
+        Log.d(TAG, "Setting click listener");
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
+                Log.d(TAG, "Clicked element");
+            }
+        });
 
         return view;
     }
@@ -87,13 +97,8 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
      */
     private class Adapter extends ArrayAdapter<String> {
 
-        private String[] mEntries;
-        private Context mContext;
-
         private Adapter(Context context, String[] entries) {
             super(context, R.layout.pref_list_dialog, entries);
-            mEntries = entries;
-            mContext = context;
         }
 
         @NonNull
@@ -104,7 +109,6 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             }
 
             ((TextView) convertView.findViewById(R.id.pref_dialog_listview_text)).setText(getItem(position));
-            ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setVisibility(View.VISIBLE);
 
             return convertView;
         }
