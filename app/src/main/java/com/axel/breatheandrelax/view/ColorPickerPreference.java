@@ -86,6 +86,7 @@ public class ColorPickerPreference extends Preference {
         final CheckBox[] checkBoxes = new CheckBox[] { mCb1, mCb2, mCb3, mCb4 };
 
         // Check the default color
+        //TODO: Properly check for defaults if first time use. Otherwise no color is chosen
         final SharedPreferences sharedPreferences = this.getSharedPreferences();
         String currentColor = sharedPreferences.getString(mKey, "Error");
         Log.d(TAG, currentColor);

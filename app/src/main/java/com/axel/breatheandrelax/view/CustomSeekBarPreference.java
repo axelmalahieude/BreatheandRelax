@@ -84,6 +84,7 @@ public class CustomSeekBarPreference extends Preference {
         mTextViewValue = (TextView) holder.findViewById(R.id.tv_seekbar_value);
         TextView label = (TextView) holder.findViewById(R.id.tv_seekbar_title);
 
+        //TODO: Properly check for defaults; otherwise SeekBars are not properly initialized on first time use
         mSharedPreferences = this.getSharedPreferences();
         int currVal = mSharedPreferences.getInt(mKey, 12341234);
 

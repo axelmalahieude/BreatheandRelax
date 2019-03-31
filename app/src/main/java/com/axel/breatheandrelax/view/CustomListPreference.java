@@ -1,16 +1,11 @@
 package com.axel.breatheandrelax.view;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 
 import com.axel.breatheandrelax.R;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import androidx.preference.PreferenceViewHolder;
 
 public class CustomListPreference extends DialogPreference {
@@ -47,6 +42,10 @@ public class CustomListPreference extends DialogPreference {
         }
     }
 
+    public void preferenceChanged() {
+
+    }
+
     public String[] getEntries() {
         String[] entries = new String[mEntries.length];
         for (int i = 0; i < mEntries.length; i++)
@@ -63,10 +62,5 @@ public class CustomListPreference extends DialogPreference {
 
     public String getDefaultEntry() {
         return mDefaultEntry.toString();
-    }
-
-    @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
-        super.onBindViewHolder(holder);
     }
 }

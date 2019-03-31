@@ -1,6 +1,7 @@
 package com.axel.breatheandrelax.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
@@ -47,7 +49,8 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
-        Log.d(TAG, "Success");
+        Log.d(TAG, "Dialog closed");
+        //TODO: Find out how to pass chosen item back to CustomListPreference so it can take care of updating SharedPreferences
     }
 
     @Override
@@ -66,25 +69,32 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             return super.onCreateDialogView(context);
         }
 
+        // Set the title
         ((TextView) view.findViewById(R.id.pref_dialog_title)).setText(title);
+
+        // Fetch the ListView and remove styling of elements
         ListView lv = view.findViewById(R.id.pref_dialog_listview);
         lv.setDivider(null);
         lv.setDividerHeight(0);
 
+        // Set ListView adapter and click listener
         Adapter adapter = new Adapter(context, entries);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
-                Log.d(TAG, "Number of children: " + parent.getCount());
+
+                // Uncheck all other RadioButtons
                 for (int i = 0; i < parent.getCount(); i++) {
                     if (parent.getChildAt(i) != view)
                         ((RadioButton) parent.getChildAt(i).findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
                 }
+
+                onDialogClosed(true);
             }
         });
-
+        //TODO: Disable checkable RadioButtons; can be checked without unchecking the others
         return view;
     }
 
