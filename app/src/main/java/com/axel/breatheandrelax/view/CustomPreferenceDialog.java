@@ -151,6 +151,8 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             if (mCheckedItem == position) {
                 Log.d(TAG, "Selecting button #" + position + "\t" + mCheckedItem);
                 ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
+            } else {
+                ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
             }
 
             return convertView;
