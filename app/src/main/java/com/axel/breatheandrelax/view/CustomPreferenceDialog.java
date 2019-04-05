@@ -75,6 +75,9 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         // Set the title
         ((TextView) view.findViewById(R.id.pref_dialog_title)).setText(title);
 
+        // Make the RadioButton unclickable since the view itself is clickable
+        (view.findViewById(R.id.pref_dialog_listview_button)).setClickable(false);
+
         // Fetch the ListView and remove styling of elements
         ListView lv = view.findViewById(R.id.pref_dialog_listview);
         lv.setDivider(null);
@@ -88,11 +91,6 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
                 String keySelected = entryValues[position];
-                /* // Uncheck all other RadioButtons
-                for (int i = 0; i < parent.getCount(); i++) {
-                    if (parent.getChildAt(i) != view)
-                        ((RadioButton) parent.getChildAt(i).findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
-                } **/
 
                 mDialogClosedListener.onValueChanged(keySelected);
                 onDialogClosed(true);
