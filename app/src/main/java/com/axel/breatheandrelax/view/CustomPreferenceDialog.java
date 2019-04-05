@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.axel.breatheandrelax.R;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -93,8 +95,6 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             }
         }
 
-        Log.d(TAG, "Selection: " + String.valueOf(defaultSelection));
-
         // Set ListView adapter and click listener
         Adapter adapter = new Adapter(context, entries, defaultSelection);
         lv.setAdapter(adapter);
@@ -144,17 +144,16 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
                 convertView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
             }
 
+            // Set the text for the ListView item
             ((TextView) convertView.findViewById(R.id.pref_dialog_listview_text)).setText(getItem(position));
 
-            Log.d(TAG, "Building view #" + String.valueOf(position));
-
+            // Determine whether the ListView item should be checked
+            boolean shouldBeChecked = false;
             if (mCheckedItem == position) {
-                Log.d(TAG, "Selecting button #" + position + "\t" + mCheckedItem);
-                ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
-            } else {
-                ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
+                shouldBeChecked = true;
             }
 
+            ((RadioButton) convertView.findViewById(R.id.pref_dialog_listview_button)).setChecked(shouldBeChecked);
             return convertView;
         }
     }

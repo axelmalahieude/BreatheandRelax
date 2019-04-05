@@ -35,6 +35,12 @@ public class CustomListPreference extends DialogPreference {
         constructor(context, null, 0);
     }
 
+    /**
+     * Common constructor called by each overloaded constructor
+     * @param context application context
+     * @param attrs XML attributes, which may not be present
+     * @param defStyleAttr attribute style, which may not be present
+     */
     private void constructor(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray stylizedAttributes = getContext().getResources().obtainAttributes(attrs, R.styleable.CustomListPreference);
         try {
@@ -67,6 +73,7 @@ public class CustomListPreference extends DialogPreference {
      */
     public String getSelection() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Log.d(TAG, "Selection is " + sharedPreferences.getString(mKey, mDefaultEntry));
         return sharedPreferences.getString(mKey, mDefaultEntry);
     }
 }

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.axel.breatheandrelax.R;
+import com.axel.breatheandrelax.view.ColorPickerPreference;
 import com.axel.breatheandrelax.view.CustomListPreference;
 import com.axel.breatheandrelax.view.CustomPreferenceDialog;
 import com.axel.breatheandrelax.view.CustomSeekBarPreference;
@@ -44,6 +45,15 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
+        ColorPickerPreference colorPickerPreference1 = findPreference(getResources().getString(R.string.pref_colors_inhale_key));
+        ColorPickerPreference colorPickerPreference2 = findPreference(getResources().getString(R.string.pref_colors_exhale_key));
+        CustomListPreference customListPreference1 = findPreference(getResources().getString(R.string.pref_animation_style_key));
+        customListPreference1.setSummaryProvider(new Preference.SummaryProvider<CustomListPreference>() {
+            @Override
+            public CharSequence provideSummary(CustomListPreference preference) {
+                return preference.getSelection();
+            }
+        });
     }
 
     /**
@@ -139,7 +149,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d("SettingsFragment.java", "preference changed");
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
