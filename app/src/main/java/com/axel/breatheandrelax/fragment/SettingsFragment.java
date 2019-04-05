@@ -14,6 +14,7 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,8 +122,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 df.setDialogClosedListener(new CustomPreferenceDialog.DialogClosedListener() {
                     @Override
                     public void onValueChanged(String newValue) {
-                        getContext().getSharedPreferences()
-                        Log.d(TAG, "Dialog closed!" + " " + newValue);
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        sharedPreferences.edit().putString(getResources().getString(R.string.pref_animation_style_key), newValue).apply();
                     }
                 });
                 df.show(getFragmentManager(), null);

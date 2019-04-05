@@ -53,9 +53,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
-        Log.d(TAG, "Dialog closed");
-        mDialogClosedListener.onValueChanged("Test");
-        //TODO: Find out how to pass chosen item back to CustomListPreference so it can take care of updating SharedPreferences
+        dismiss(); // close dialog
     }
 
     @Override
@@ -64,7 +62,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
         Bundle args = getArguments();
         String title, defaultEntry;
-        String[] entries, entryValues;
+        final String[] entries, entryValues;
         if (args != null) {
             title = args.getString(ARG_TITLE);
             defaultEntry = args.getString(ARG_DEFAULT);
@@ -89,14 +87,14 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
-                String itemClicked = ((TextView) view.findViewById(R.id.pref_dialog_listview_text)).getText().toString();
-
+                String keySelected = entryValues[position];
                 /* // Uncheck all other RadioButtons
                 for (int i = 0; i < parent.getCount(); i++) {
                     if (parent.getChildAt(i) != view)
                         ((RadioButton) parent.getChildAt(i).findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
                 } **/
 
+                mDialogClosedListener.onValueChanged(keySelected);
                 onDialogClosed(true);
             }
         });
