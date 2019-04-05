@@ -59,8 +59,6 @@ public class ColorPickerPreference extends Preference {
     }
 
     private void getAttributes(AttributeSet attrs) {
-        String androidNamespace = "http://schemas.android.com/apk/res/android";
-
         // Get custom attributes
         TypedArray stylizedAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.ColorPickerPreference);
         try {

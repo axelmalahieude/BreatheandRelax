@@ -1,31 +1,23 @@
 package com.axel.breatheandrelax.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.axel.breatheandrelax.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
@@ -34,6 +26,18 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
     private static final String ARG_ENTRIES = "entries";
     private static final String ARG_ENTRYVALUES = "entryvalues";
     private static final String ARG_DEFAULT = "def";
+
+    private String mSelection;
+
+    private DialogClosedListener mDialogClosedListener;
+
+    public interface DialogClosedListener {
+        public void onValueChanged(String newValue);
+    }
+
+    public void setDialogClosedListener(DialogClosedListener dcl) {
+        mDialogClosedListener = dcl;
+    }
 
     public static CustomPreferenceDialog createInstance(Preference preference) {
         CustomPreferenceDialog fragment = new CustomPreferenceDialog();
@@ -50,6 +54,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
     @Override
     public void onDialogClosed(boolean positiveResult) {
         Log.d(TAG, "Dialog closed");
+        mDialogClosedListener.onValueChanged("Test");
         //TODO: Find out how to pass chosen item back to CustomListPreference so it can take care of updating SharedPreferences
     }
 
@@ -84,12 +89,13 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((RadioButton) view.findViewById(R.id.pref_dialog_listview_button)).setChecked(true);
+                String itemClicked = ((TextView) view.findViewById(R.id.pref_dialog_listview_text)).getText().toString();
 
-                // Uncheck all other RadioButtons
+                /* // Uncheck all other RadioButtons
                 for (int i = 0; i < parent.getCount(); i++) {
                     if (parent.getChildAt(i) != view)
                         ((RadioButton) parent.getChildAt(i).findViewById(R.id.pref_dialog_listview_button)).setChecked(false);
-                }
+                } **/
 
                 onDialogClosed(true);
             }

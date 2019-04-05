@@ -31,7 +31,9 @@ import java.util.List;
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat
-    implements SharedPreferences.OnSharedPreferenceChangeListener{
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private final static String TAG = SettingsFragment.class.getSimpleName();
 
     /**
      * Populates the fragment with the proper set of preferences
@@ -113,12 +115,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         if (preference instanceof CustomListPreference) {
-            DialogFragment df = CustomPreferenceDialog.createInstance(preference);
+            CustomPreferenceDialog df = CustomPreferenceDialog.createInstance(preference);
             df.setTargetFragment(this, 0);
-            if (getFragmentManager() != null)
+            if (getFragmentManager() != null) {
+                df.setDialogClosedListener(new CustomPreferenceDialog.DialogClosedListener() {
+                    @Override
+                    public void onValueChanged(String newValue) {
+                        getContext().getSharedPreferences()
+                        Log.d(TAG, "Dialog closed!" + " " + newValue);
+                    }
+                });
                 df.show(getFragmentManager(), null);
-            else
-                Log.d(SettingsFragment.class.getSimpleName(), "Null fragment manager");
+            }
         } else super.onDisplayPreferenceDialog(preference);
 
     }
