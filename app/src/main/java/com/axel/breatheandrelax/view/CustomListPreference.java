@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.axel.breatheandrelax.R;
 
@@ -16,7 +17,7 @@ public class CustomListPreference extends DialogPreference {
 
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
-    private CharSequence mDefaultEntry;
+    private String mDefaultEntry;
     private String mKey; // key for the preference, so we know which SharedPreference to update
 
     public CustomListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -37,7 +38,7 @@ public class CustomListPreference extends DialogPreference {
     private void constructor(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray stylizedAttributes = getContext().getResources().obtainAttributes(attrs, R.styleable.CustomListPreference);
         try {
-            mDefaultEntry = stylizedAttributes.getText(R.styleable.CustomListPreference_android_defaultValue);
+            mDefaultEntry = stylizedAttributes.getText(R.styleable.CustomListPreference_android_defaultValue).toString();
             mEntries = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entries);
             mEntryValues = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entryValues);
             mKey = stylizedAttributes.getText(R.styleable.CustomListPreference_android_key).toString();
@@ -64,10 +65,8 @@ public class CustomListPreference extends DialogPreference {
      * Get the entry in the ListPreference that is currently selected, or the default if none is selected
      * @return the selected entry
      */
-    public String getSelectedEntry() {
+    public String getSelection() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        // TODO: Change default to be more generic
-        String defaultSelection = getContext().getResources().getString(R.string.pref_animation_style_default);
-        return sharedPreferences.getString(mKey, defaultSelection);
+        return sharedPreferences.getString(mKey, mDefaultEntry);
     }
 }

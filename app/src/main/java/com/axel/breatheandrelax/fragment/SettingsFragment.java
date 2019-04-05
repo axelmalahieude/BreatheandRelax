@@ -121,9 +121,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
             if (getFragmentManager() != null) {
                 df.setDialogClosedListener(new CustomPreferenceDialog.DialogClosedListener() {
                     @Override
-                    public void onValueChanged(String newValue) {
+                    public void onSelection(String key, String newValue) {
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        sharedPreferences.edit().putString(getResources().getString(R.string.pref_animation_style_key), newValue).apply();
+                        sharedPreferences.edit().putString(key, newValue).apply();
                     }
                 });
                 df.show(getFragmentManager(), null);
