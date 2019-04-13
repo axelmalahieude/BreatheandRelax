@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
 import com.axel.breatheandrelax.R;
 import com.axel.breatheandrelax.view.ColorPickerPreference;
@@ -37,6 +38,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private final static String TAG = SettingsFragment.class.getSimpleName();
 
+    private CustomListPreference mAnimationPreference;
+    private ColorPickerPreference mInhaleColorPreference;
+    private ColorPickerPreference mExhaleColorPreference;
+
     /**
      * Populates the fragment with the proper set of preferences
      * @param bundle data arguments
@@ -45,15 +50,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
-        ColorPickerPreference colorPickerPreference1 = findPreference(getResources().getString(R.string.pref_colors_inhale_key));
-        ColorPickerPreference colorPickerPreference2 = findPreference(getResources().getString(R.string.pref_colors_exhale_key));
-        CustomListPreference customListPreference1 = findPreference(getResources().getString(R.string.pref_animation_style_key));
-        customListPreference1.setSummaryProvider(new Preference.SummaryProvider<CustomListPreference>() {
-            @Override
-            public CharSequence provideSummary(CustomListPreference preference) {
-                return preference.getSelection();
-            }
-        });
+        mInhaleColorPreference = findPreference(getResources().getString(R.string.pref_colors_inhale_key));
+        mExhaleColorPreference = findPreference(getResources().getString(R.string.pref_colors_exhale_key));
+        mAnimationPreference = findPreference(getResources().getString(R.string.pref_animation_style_key));
+        mAnimationPreference.setSummary();
     }
 
     /**
@@ -126,7 +126,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         if (preference instanceof CustomListPreference) {
-            CustomPreferenceDialog df = CustomPreferenceDialog.createInstance(preference);
+            final CustomListPreference CustomListPreference = (CustomListPreference) preference;
+            CustomPreferenceDialog df = CustomPreferenceDialog.createInstance(CustomListPreference);
             df.setTargetFragment(this, 0);
             if (getFragmentManager() != null) {
                 df.setDialogClosedListener(new CustomPreferenceDialog.DialogClosedListener() {
@@ -149,6 +150,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getResources().getString(R.string.pref_animation_style_key)))
+            mAnimationPreference.setSummary();
+
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {

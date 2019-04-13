@@ -8,14 +8,16 @@ import android.util.Log;
 
 import com.axel.breatheandrelax.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceViewHolder;
 
 public class CustomListPreference extends DialogPreference {
 
     private static String TAG = CustomListPreference.class.getSimpleName();
 
-    private CharSequence[] mEntries;
+    private CharSequence[] mEntryKeys;
     private CharSequence[] mEntryValues;
     private String mDefaultEntry;
     private String mKey; // key for the preference, so we know which SharedPreference to update
@@ -45,7 +47,7 @@ public class CustomListPreference extends DialogPreference {
         TypedArray stylizedAttributes = getContext().getResources().obtainAttributes(attrs, R.styleable.CustomListPreference);
         try {
             mDefaultEntry = stylizedAttributes.getText(R.styleable.CustomListPreference_android_defaultValue).toString();
-            mEntries = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entries);
+            mEntryKeys = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entries);
             mEntryValues = stylizedAttributes.getTextArray(R.styleable.CustomListPreference_android_entryValues);
             mKey = stylizedAttributes.getText(R.styleable.CustomListPreference_android_key).toString();
         } finally {
@@ -53,14 +55,14 @@ public class CustomListPreference extends DialogPreference {
         }
     }
 
-    public String[] getEntries() {
-        String[] entries = new String[mEntries.length];
-        for (int i = 0; i < mEntries.length; i++)
-            entries[i] = mEntries[i].toString();
+    public String[] getEntryValues() {
+        String[] entries = new String[mEntryKeys.length];
+        for (int i = 0; i < mEntryKeys.length; i++)
+            entries[i] = mEntryKeys[i].toString();
         return entries;
     }
 
-    public String[] getEntryValues() {
+    public String[] getEntryKeys() {
         String[] entryValues = new String[mEntryValues.length];
         for (int i = 0; i < mEntryValues.length; i++)
             entryValues[i] = mEntryValues[i].toString();
@@ -73,7 +75,14 @@ public class CustomListPreference extends DialogPreference {
      */
     public String getSelection() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Log.d(TAG, "Selection is " + sharedPreferences.getString(mKey, mDefaultEntry));
         return sharedPreferences.getString(mKey, mDefaultEntry);
+    }
+
+    public void setSummary() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String selection = sharedPreferences.getString(mKey, mDefaultEntry);
+        ArrayList<String> entryKeys = new ArrayList<>(Arrays.asList(getEntryKeys()));
+        ArrayList<String> entryValues = new ArrayList<>(Arrays.asList(getEntryValues()));
+        setSummary(entryValues.get(entryKeys.indexOf(selection)));
     }
 }
