@@ -1,14 +1,12 @@
 package com.axel.breatheandrelax.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -22,7 +20,7 @@ import androidx.preference.PreferenceViewHolder;
 public class ColorPickerPreference extends Preference {
 
     // Views
-    private TextView mTvTitle;
+    private TextView mSummary;
     private CheckBox mCb1;
     private CheckBox mCb2;
     private CheckBox mCb3;
@@ -33,6 +31,9 @@ public class ColorPickerPreference extends Preference {
     private String mKey;
     private int mDefaultColor;
     private CharSequence[] mColors;
+
+    // Other data members
+    private int mCurrentColor;
 
     // Debugging
     private String TAG = ColorPickerPreference.class.getSimpleName();
@@ -71,23 +72,34 @@ public class ColorPickerPreference extends Preference {
         }
     }
 
+    public void setSummary(int currentColor) {
+        String summary = Tools.intColorToString(getContext().getResources(), currentColor);
+        if (mSummary != null)
+            mSummary.setText(summary);
+    }
+
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         // Fetch references for the views in this preference
-        mTvTitle = (TextView) holder.findViewById(R.id.pref_cb_title);
+        TextView title = (TextView) holder.findViewById(R.id.pref_cb_title);
+        mSummary = (TextView) holder.findViewById(R.id.pref_color_summary);
         mCb1 = (CheckBox) holder.findViewById(R.id.pref_cb_1);
         mCb2 = (CheckBox) holder.findViewById(R.id.pref_cb_2);
         mCb3 = (CheckBox) holder.findViewById(R.id.pref_cb_3);
         mCb4 = (CheckBox) holder.findViewById(R.id.pref_cb_4);
+
         final CheckBox[] checkBoxes = new CheckBox[] { mCb1, mCb2, mCb3, mCb4 };
+
+        Resources resources = getContext().getResources();
 
         // Check the default color
         //TODO: Properly check for defaults if first time use. Otherwise no color is chosen
         final SharedPreferences sharedPreferences = this.getSharedPreferences();
-        String currentColor = sharedPreferences.getString(mKey, "Error");
-        Log.d(TAG, currentColor);
+        String currentColor = sharedPreferences.getString(mKey, null);
+        if (currentColor == null)
+            currentColor = Tools.intColorToKey(resources, mDefaultColor);
 
         // Set the checkboxes to be colored according to which color they select
         int[][] states = new int[][]{
@@ -97,12 +109,13 @@ public class ColorPickerPreference extends Preference {
         for (int i = 0; i < checkBoxes.length; i++) {
             if (mColors[i].toString().equals(currentColor))
                 checkBoxes[i].setChecked(true);
-            int color = Tools.colorStringToInt(getContext().getResources(), mColors[i].toString());
+            int color = Tools.colorKeyToInt(getContext().getResources(), mColors[i].toString());
             int[] colorArray = new int[] { color, color };
             checkBoxes[i].setButtonTintList(new ColorStateList(states, colorArray));
         }
 
-        mTvTitle.setText(mTitle);
+        title.setText(mTitle);
+        setSummary(Tools.colorKeyToInt(resources, currentColor));
 
         // Set the listeners for when a checkbox is clicked
         for (final CheckBox checkBox : checkBoxes) {
@@ -125,8 +138,9 @@ public class ColorPickerPreference extends Preference {
                             Log.d(TAG, "NPE");
                             color = 0;
                         }
-                        sharedPreferences.edit().putString(mKey, Tools.intColorToString(getContext().getResources(), color)).apply();
 
+                        setSummary(color);
+                        sharedPreferences.edit().putString(mKey, Tools.intColorToKey(getContext().getResources(), color)).apply();
                     }
                     // Make sure this checkbox stays checked if it was already checked
                     else if (allNotChecked()) {

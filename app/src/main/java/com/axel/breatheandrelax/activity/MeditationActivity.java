@@ -217,9 +217,9 @@ public class MeditationActivity extends AppCompatActivity implements
 
         // Set the new animation's colors
         String colorInhale = sharedPreferences.getString(getResources().getString(R.string.pref_colors_inhale_key), getResources().getString(R.string.pref_colors_inhale_default));
-        mAnimation.setInhaleColor(Tools.colorStringToInt(getResources(), colorInhale));
+        mAnimation.setInhaleColor(Tools.colorKeyToInt(getResources(), colorInhale));
         String colorExhale = sharedPreferences.getString(getResources().getString(R.string.pref_colors_exhale_key), getResources().getString(R.string.pref_colors_exhale_default));
-        mAnimation.setExhaleColor(Tools.colorStringToInt(getResources(), colorExhale));
+        mAnimation.setExhaleColor(Tools.colorKeyToInt(getResources(), colorExhale));
     }
 
     /**
@@ -321,10 +321,10 @@ public class MeditationActivity extends AppCompatActivity implements
                 mMeditationStartTime = mMeditationTime = 0;
         } else if (key.equals(getResources().getString(R.string.pref_colors_inhale_key))) {
             String colorString = sharedPreferences.getString(key, getResources().getString(R.string.pref_colors_inhale_default));
-            mAnimation.setInhaleColor(Tools.colorStringToInt(getResources(), colorString));
+            mAnimation.setInhaleColor(Tools.colorKeyToInt(getResources(), colorString));
         } else if (key.equals(getResources().getString(R.string.pref_colors_exhale_key))) {
             String colorString = sharedPreferences.getString(key, getResources().getString(R.string.pref_colors_exhale_default));
-            mAnimation.setExhaleColor(Tools.colorStringToInt(getResources(), colorString));
+            mAnimation.setExhaleColor(Tools.colorKeyToInt(getResources(), colorString));
         } else if (key.equals(getResources().getString(R.string.pref_animation_style_key))){
             createAnimation(sharedPreferences);
         }

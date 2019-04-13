@@ -11,46 +11,60 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/pref_cb_title"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        tools:text="Color"
-        android:textColor="@android:color/white"
-        android:gravity="center_vertical"
-        android:textSize="16sp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/pref_cb_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Color"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/pref_color_summary"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"
+            tools:text="Summary"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:gravity="end">
+        android:gravity="center_vertical">
 
         <CheckBox
             android:id="@+id/pref_cb_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@android:color/white"/>
+            android:buttonTint="@android:color/white" />
 
         <CheckBox
             android:id="@+id/pref_cb_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@android:color/white"/>
+            android:buttonTint="@android:color/white"  />
 
         <CheckBox
             android:id="@+id/pref_cb_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@android:color/white"/>
+            android:buttonTint="@android:color/white"  />
 
         <CheckBox
-            android:layout_gravity="end"
             android:id="@+id/pref_cb_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@android:color/white"/>
+            android:buttonTint="@android:color/white"  />
 
     </LinearLayout>
 

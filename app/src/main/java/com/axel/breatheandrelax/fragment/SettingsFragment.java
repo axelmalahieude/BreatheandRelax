@@ -39,8 +39,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private final static String TAG = SettingsFragment.class.getSimpleName();
 
     private CustomListPreference mAnimationPreference;
-    private ColorPickerPreference mInhaleColorPreference;
-    private ColorPickerPreference mExhaleColorPreference;
 
     /**
      * Populates the fragment with the proper set of preferences
@@ -50,8 +48,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
-        mInhaleColorPreference = findPreference(getResources().getString(R.string.pref_colors_inhale_key));
-        mExhaleColorPreference = findPreference(getResources().getString(R.string.pref_colors_exhale_key));
         mAnimationPreference = findPreference(getResources().getString(R.string.pref_animation_style_key));
         mAnimationPreference.setSummary();
     }
