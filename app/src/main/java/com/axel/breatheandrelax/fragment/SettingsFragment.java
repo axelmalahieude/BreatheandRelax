@@ -14,11 +14,14 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
 import com.axel.breatheandrelax.R;
+import com.axel.breatheandrelax.view.ColorPickerPreference;
 import com.axel.breatheandrelax.view.CustomListPreference;
 import com.axel.breatheandrelax.view.CustomPreferenceDialog;
 import com.axel.breatheandrelax.view.CustomSeekBarPreference;
@@ -31,7 +34,11 @@ import java.util.List;
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat
-    implements SharedPreferences.OnSharedPreferenceChangeListener{
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private final static String TAG = SettingsFragment.class.getSimpleName();
+
+    private CustomListPreference mAnimationPreference;
 
     /**
      * Populates the fragment with the proper set of preferences
@@ -41,6 +48,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
+        mAnimationPreference = findPreference(getResources().getString(R.string.pref_animation_style_key));
+        mAnimationPreference.setSummary();
     }
 
     /**
@@ -113,12 +122,19 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         if (preference instanceof CustomListPreference) {
-            DialogFragment df = CustomPreferenceDialog.createInstance(preference);
+            final CustomListPreference CustomListPreference = (CustomListPreference) preference;
+            CustomPreferenceDialog df = CustomPreferenceDialog.createInstance(CustomListPreference);
             df.setTargetFragment(this, 0);
-            if (getFragmentManager() != null)
+            if (getFragmentManager() != null) {
+                df.setDialogClosedListener(new CustomPreferenceDialog.DialogClosedListener() {
+                    @Override
+                    public void onSelection(String key, String newValue) {
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        sharedPreferences.edit().putString(key, newValue).apply();
+                    }
+                });
                 df.show(getFragmentManager(), null);
-            else
-                Log.d(SettingsFragment.class.getSimpleName(), "Null fragment manager");
+            }
         } else super.onDisplayPreferenceDialog(preference);
 
     }
@@ -130,7 +146,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d("SettingsFragment.java", "preference changed");
+        if (key.equals(getResources().getString(R.string.pref_animation_style_key)))
+            mAnimationPreference.setSummary();
+
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
