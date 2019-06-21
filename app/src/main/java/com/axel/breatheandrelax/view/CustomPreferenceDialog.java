@@ -1,31 +1,23 @@
 package com.axel.breatheandrelax.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.axel.breatheandrelax.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
 
@@ -77,7 +69,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         lv.setDivider(null);
         lv.setDividerHeight(0);
 
-        // Set ListView adapter and click listener
+        // Set ListView adapter and click listener to listen for button clicks
         Adapter adapter = new Adapter(context, entries);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +86,17 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
                 onDialogClosed(true);
             }
         });
-        //TODO: Disable checkable RadioButtons; can be checked without unchecking the others
+
+        // Set the default entry's RadioButton to be checked
+        Log.d(TAG, "Children: " + lv.getCount());
+        for (int i = 0; i < lv.getCount(); i++) {
+            View child = lv.getChildAt(i);
+            RadioButton rb = child.findViewById(R.id.pref_dialog_listview_button);
+            Log.d(TAG, defaultEntry);
+        }
+
+        Log.d(TAG, "Test");
+
         return view;
     }
 
