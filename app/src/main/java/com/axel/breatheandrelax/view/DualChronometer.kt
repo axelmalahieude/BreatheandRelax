@@ -108,7 +108,7 @@ class DualChronometer : Chronometer {
      * Sets the properly formatted time for the chronometer
      * @param time is the time in milliseconds to set the chronometer for
      */
-    fun setText(time: Long) {
+    private fun setText(time: Long) {
         var time = time
         if (time <= 0) time = 0
         val hours = time.toInt() / 3600000
@@ -120,19 +120,18 @@ class DualChronometer : Chronometer {
         else if (hours == 0)
             if (seconds > 9)
             // formats to MM:SS
-                setText(String.format(Locale.getDefault(), "%d:%d", minutes, seconds))
+                text = String.format(Locale.getDefault(), "%d:%d", minutes, seconds)
             else
             // formats to MM:S (under 10 seconds so we need a leading zero)
-                setText(String.format(Locale.getDefault(), "%d:0%d", minutes, seconds))
+                text = String.format(Locale.getDefault(), "%d:0%d", minutes, seconds)
         else if (seconds > 9 && minutes > 9)
-            setText(String.format(Locale.getDefault(), "%d:%d:%d", hours, minutes, seconds))
+            text = String.format(Locale.getDefault(), "%d:%d:%d", hours, minutes, seconds)
         else if (seconds > 9)
-            setText(String.format(Locale.getDefault(), "%d:0%d:%d", hours, minutes, seconds))
+            text = String.format(Locale.getDefault(), "%d:0%d:%d", hours, minutes, seconds)
         else if (minutes > 9)
-            setText(String.format(Locale.getDefault(), "%d:%d:0%d", hours, minutes, seconds))
+            text = String.format(Locale.getDefault(), "%d:%d:0%d", hours, minutes, seconds)
         else
-            setText(String.format(Locale.getDefault(), "%d:0%d:0%d", hours, minutes, seconds))// Similar formatting as with minutes and seconds if we need to show hours
-        // Unlikely that anyone will let the counter go up to an hour, but just in case
+            text = String.format(Locale.getDefault(), "%d:0%d:0%d", hours, minutes, seconds)
     }
 
     /**

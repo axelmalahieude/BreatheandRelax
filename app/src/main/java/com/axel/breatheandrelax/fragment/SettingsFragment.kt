@@ -110,36 +110,35 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             val exhaleSeekBar = preferenceManager.findPreference(resources.getString(R.string.pref_seekbar_exhale_key)) as SeekBarPreference
             val holdSeekBar = preferenceManager.findPreference(resources.getString(R.string.pref_seekbar_hold_key)) as SeekBarPreference
             val pauseSeekBar = preferenceManager.findPreference(resources.getString(R.string.pref_seekbar_pause_key)) as SeekBarPreference
-            if (currentValue == resources.getString(R.string.pref_list_uplifting_breathing_value)) {
-                inhaleSeekBar.value = resources.getInteger(R.integer.inhale_uplifting_default)
-                exhaleSeekBar.value = resources.getInteger(R.integer.exhale_uplifting_default)
-                holdSeekBar.value = resources.getInteger(R.integer.hold_uplifting_default)
-                pauseSeekBar.value = resources.getInteger(R.integer.pause_uplifting_default)
-            } else if (currentValue == resources.getString(R.string.pref_list_relaxing_breathing_value)) {
-                inhaleSeekBar.value = resources.getInteger(R.integer.inhale_relaxing_default)
-                exhaleSeekBar.value = resources.getInteger(R.integer.exhale_relaxing_default)
-                holdSeekBar.value = resources.getInteger(R.integer.hold_relaxing_default)
-                pauseSeekBar.value = resources.getInteger(R.integer.pause_relaxing_default)
-            } else if (currentValue == resources.getString(R.string.pref_list_meditative_breathing_value)) {
-                inhaleSeekBar.value = resources.getInteger(R.integer.inhale_meditative_default)
-                exhaleSeekBar.value = resources.getInteger(R.integer.exhale_meditative_default)
-                holdSeekBar.value = resources.getInteger(R.integer.hold_meditative_default)
-                pauseSeekBar.value = resources.getInteger(R.integer.pause_meditative_default)
+            when (currentValue) {
+                resources.getString(R.string.pref_list_uplifting_breathing_value) -> {
+                    inhaleSeekBar.value = resources.getInteger(R.integer.inhale_uplifting_default)
+                    exhaleSeekBar.value = resources.getInteger(R.integer.exhale_uplifting_default)
+                    holdSeekBar.value = resources.getInteger(R.integer.hold_uplifting_default)
+                    pauseSeekBar.value = resources.getInteger(R.integer.pause_uplifting_default)
+                }
+                resources.getString(R.string.pref_list_relaxing_breathing_value) -> {
+                    inhaleSeekBar.value = resources.getInteger(R.integer.inhale_relaxing_default)
+                    exhaleSeekBar.value = resources.getInteger(R.integer.exhale_relaxing_default)
+                    holdSeekBar.value = resources.getInteger(R.integer.hold_relaxing_default)
+                    pauseSeekBar.value = resources.getInteger(R.integer.pause_relaxing_default)
+                }
+                resources.getString(R.string.pref_list_meditative_breathing_value) -> {
+                    inhaleSeekBar.value = resources.getInteger(R.integer.inhale_meditative_default)
+                    exhaleSeekBar.value = resources.getInteger(R.integer.exhale_meditative_default)
+                    holdSeekBar.value = resources.getInteger(R.integer.hold_meditative_default)
+                    pauseSeekBar.value = resources.getInteger(R.integer.pause_meditative_default)
+                }
             }
         } else if (key == resources.getString(R.string.pref_seekbar_inhale_key) ||
                 key == resources.getString(R.string.pref_seekbar_exhale_key) ||
                 key == resources.getString(R.string.pref_seekbar_hold_key) ||
                 key == resources.getString(R.string.pref_seekbar_pause_key)) {
-            val listPreference = preferenceManager
-                    .findPreference(resources.getString(R.string.pref_list_breath_style_key)) as ListPreference
-            val inhaleTime = (preferenceManager.findPreference(
-                    resources.getString(R.string.pref_seekbar_inhale_key)) as SeekBarPreference).value
-            val exhaleTime = (preferenceManager.findPreference(
-                    resources.getString(R.string.pref_seekbar_exhale_key)) as SeekBarPreference).value
-            val holdTime = (preferenceManager.findPreference(
-                    resources.getString(R.string.pref_seekbar_hold_key)) as SeekBarPreference).value
-            val pauseTime = (preferenceManager.findPreference(
-                    resources.getString(R.string.pref_seekbar_pause_key)) as SeekBarPreference).value
+            val listPreference = preferenceManager.findPreference(resources.getString(R.string.pref_list_breath_style_key)) as ListPreference
+            val inhaleTime = (preferenceManager.findPreference(resources.getString(R.string.pref_seekbar_inhale_key)) as SeekBarPreference).value
+            val exhaleTime = (preferenceManager.findPreference( resources.getString(R.string.pref_seekbar_exhale_key)) as SeekBarPreference).value
+            val holdTime = (preferenceManager.findPreference(resources.getString(R.string.pref_seekbar_hold_key)) as SeekBarPreference).value
+            val pauseTime = (preferenceManager.findPreference( resources.getString(R.string.pref_seekbar_pause_key)) as SeekBarPreference).value
             // This block listens for changes in the preset options and signals an update to
             // the SeekBars appropriately
             if (inhaleTime == resources.getInteger(R.integer.inhale_uplifting_default) &&
@@ -159,6 +158,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 listPreference.value = resources.getString(R.string.pref_list_meditative_breathing_value)
             } else
                 listPreference.value = resources.getString(R.string.pref_list_custom_breathing_value)
-        }// This block listens for changes in any of the SeekBars and changes the ListPreference
+        }
     }
 }

@@ -16,7 +16,7 @@ class CustomNumberPicker : NumberPicker {
      * Necessary constructor to override NumberPicker
      * @param context the parent activity's context
      */
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     /**
      * Necessary constructor to override NumberPicker
@@ -41,7 +41,7 @@ class CustomNumberPicker : NumberPicker {
      * Sets custom attributes to properly set up the NumberPicker
      * @param attrs is the AttributeSet containing the attribute we want to set up
      */
-    fun setAttributes(attrs: AttributeSet) {
+    private fun setAttributes(attrs: AttributeSet) {
         // Fetch the attributes we set in the XML layout file
         val namespace = "http://schemas.android.com/apk/res-auto"
         var maxValue = attrs.getAttributeIntValue(namespace, "maxValue", 0)
@@ -49,8 +49,9 @@ class CustomNumberPicker : NumberPicker {
         val twoDigitNumbers = attrs.getAttributeBooleanValue(namespace, "twoDigitNumbers", false)
 
         // Quick error checking for valid attributes
-        if (maxValue == minValue) return
-        if (minValue > maxValue) {
+        if (maxValue == minValue) {
+            return
+        } else if (minValue > maxValue) {
             val temp = minValue
             minValue = maxValue
             maxValue = temp
@@ -66,10 +67,11 @@ class CustomNumberPicker : NumberPicker {
             var i = minValue
             var j = 0
             while (i <= maxValue) {
-                var number = i.toString()
-                if (twoDigitNumbers && i < 10)
-                // prepend 0 if attribute is set
-                    number = "0$i"
+                val number = if (twoDigitNumbers && i < 10) {
+                    "0$i"
+                } else {
+                    "$i"
+                }
                 minutes[j] = number
                 i++
                 j++
@@ -77,7 +79,7 @@ class CustomNumberPicker : NumberPicker {
         }
         displayedValues = minutes
 
-        // Set the keyboard to the proper style (numbers only)
+        // Find and set the keyboard to the proper style (numbers only)
         val count = childCount
         for (i in 0 until count) {
             val child = getChildAt(i)

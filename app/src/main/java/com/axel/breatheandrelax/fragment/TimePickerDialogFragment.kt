@@ -23,6 +23,11 @@ class TimePickerDialogFragment : DialogFragment() {
     private var mMinutePicker: CustomNumberPicker? = null
     private var mSecondPicker: CustomNumberPicker? = null
 
+    companion object {
+        // Bundle variable codes
+        const val START_TIME_CODE = "starting_time"
+    }
+
     interface TimePickerDialogListener {
         fun setStopWatchTime(minutes: Int, seconds: Int)
         fun onDialogCancelled()
@@ -80,11 +85,5 @@ class TimePickerDialogFragment : DialogFragment() {
     override fun onCancel(dialog: DialogInterface?) {
         super.onCancel(dialog)
         mListener!!.onDialogCancelled()
-    }
-
-    companion object {
-
-        // Bundle variable codes
-        val START_TIME_CODE = "starting_time"
     }
 }

@@ -22,6 +22,12 @@ class SingleMessageDialogFragment : DialogFragment() {
     private var mButtonLabel: String? = null
     private var mTitle: String? = null
 
+    companion object {
+        const val MESSAGE_KEY = "message"
+        const val BUTTON_LABEL_KEY = "button"
+        const val TITLE_KEY = "title"
+    }
+
     interface DialogFinishedListener {
         fun onDialogDismissed()
     }
@@ -39,7 +45,7 @@ class SingleMessageDialogFragment : DialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.dialog)
+        setStyle(STYLE_NO_TITLE, R.style.dialog)
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
@@ -60,7 +66,7 @@ class SingleMessageDialogFragment : DialogFragment() {
         val dialogView = inflater.inflate(R.layout.dialog_single_message, null)
         if (mMessage!!.length < 70)
         // greater than 70 characters
-            dialogView.findViewById<View>(R.id.tv_dialog_message).textAlignment = View.TEXT_ALIGNMENT_CENTER
+        dialogView.findViewById<View>(R.id.tv_dialog_message).textAlignment = View.TEXT_ALIGNMENT_CENTER
         (dialogView.findViewById<View>(R.id.tv_dialog_message) as TextView).text = mMessage
         (dialogView.findViewById<View>(R.id.tv_dialog_title) as TextView).text = mTitle
 
@@ -76,13 +82,5 @@ class SingleMessageDialogFragment : DialogFragment() {
 
         // Create the dialog
         return builder.create()
-    }
-
-    companion object {
-
-        // Constants
-        val MESSAGE_KEY = "message"
-        val BUTTON_LABEL_KEY = "button"
-        val TITLE_KEY = "title"
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
+import android.support.constraint.ConstraintLayout
 import android.util.TypedValue
 import android.view.Display
 import android.widget.Toast
@@ -30,18 +31,12 @@ internal constructor(protected var mContext: Context, var inhaleTime: Int, var e
     var isPlaying: Boolean = false
         private set
 
-    /**
-     * Simple accessor functions
-     * @return the data member specified
-     */
-    /**
-     * Setter methods for breathing times and color.
-     */
     var inhaleColor: Int = 0
     var exhaleColor: Int = 0
 
     // Protected data members controlling the animation
     protected var mAnimation: ValueAnimator? = null
+    protected val mScreen: ConstraintLayout = (mContext as Activity).findViewById(R.id.cl_main_layout)
 
     /**
      * Fetch the screen dimensions, which are different depending on screen orientation.
@@ -75,11 +70,8 @@ internal constructor(protected var mContext: Context, var inhaleTime: Int, var e
 
         inhaleColor = mContext.resources.getColor(R.color.breathe_red)
         exhaleColor = mContext.resources.getColor(R.color.breathe_blue)
-    }// Set data members
+    }
 
-    /**
-     * Starts the breathing animation.
-     */
     open fun startBreathing() {
         isPlaying = true
         mJustInhaled = false // we start by inhaling
@@ -87,9 +79,6 @@ internal constructor(protected var mContext: Context, var inhaleTime: Int, var e
         Toast.makeText(mContext, mContext.resources.getString(R.string.toast_inhale), Toast.LENGTH_SHORT).show()
     }
 
-    /**
-     * Stops the breathing animation, and deallocates any listeners.
-     */
     open fun stopBreathing() {
         if (mAnimation != null) {
             removeListeners()

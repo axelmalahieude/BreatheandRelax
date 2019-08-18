@@ -32,20 +32,16 @@ class SizeAnimation
     private var mColorAnimation: ValueAnimator? = null // animation for color changes
 
     // UI data members
-    private val mScreen: ConstraintLayout
     private var mParams: ViewGroup.LayoutParams? = null
     private var mOrientation: Int = 0 // screen orientation
 
     init {
-
-        mScreen = (context as Activity).findViewById(R.id.cl_main_layout)
-
         // Create the animation
         mAnimation = ValueAnimator.ofInt(0, screenCenterX.toInt())
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.getResources().getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
     }
 
     /**
@@ -61,9 +57,10 @@ class SizeAnimation
 
         // Refresh the UI (in case this animation is not starting from scratch)
         mBall.drawable.setTint(inhaleColor) // reset color
-        if (mBall.parent != null)
         // verify object has a parent before removing it
+        if (mBall.parent != null) {
             (mBall.parent as ViewGroup).removeView(mBall)
+        }
         mScreen.addView(mBall, params)
         mParams = mBall.layoutParams
 
@@ -94,8 +91,7 @@ class SizeAnimation
      */
     override fun stopBreathing() {
         super.stopBreathing()
-        if (mColorAnimation != null)
-            mColorAnimation!!.cancel()
+        mColorAnimation?.cancel()
         if (mAnimation != null) {
             mAnimation!!.removeAllListeners()
             mScreen.removeView(mBall)

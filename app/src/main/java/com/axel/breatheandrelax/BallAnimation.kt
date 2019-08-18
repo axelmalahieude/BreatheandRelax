@@ -37,19 +37,13 @@ class BallAnimation
     private var mBallHeight: Int = 0 // dimensions of the animated object
     private var mColorAnimation: ValueAnimator? = null // animation for color changes
 
-    // UI data members
-    private val mScreen: ConstraintLayout
-
     init {
-
-        mScreen = (context as Activity).findViewById(R.id.cl_main_layout)
-
         // Create the animation
         mAnimation = ValueAnimator.ofFloat(0f, 1f)
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.getResources().getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
     }
 
 
@@ -67,15 +61,16 @@ class BallAnimation
 
         // Refresh UI
         mBall.drawable.setTint(inhaleColor) // reset color
-        if (mBall.parent != null)
+        if (mBall.parent != null) {
             (mBall.parent as ViewGroup).removeView(mBall)
+        }
         mScreen.addView(mBall, params)
 
         // Get the height of the ImageView that depicts the ball as soon as it is drawn
         val ball = mBall
-        if (ball.height != 0)
+
         // getHeight() may fail if the ImageView hasn't been drawn yet
-        {
+        if (ball.height != 0) {
             super.startBreathing()
             return
         }
@@ -96,8 +91,7 @@ class BallAnimation
      */
     override fun stopBreathing() {
         super.stopBreathing()
-        if (mColorAnimation != null)
-            mColorAnimation!!.cancel()
+        mColorAnimation?.cancel()
         if (mAnimation != null) {
             mScreen.removeView(mBall)
         }
@@ -107,14 +101,10 @@ class BallAnimation
      * Removes all listeners for animations.
      */
     override fun removeListeners() {
-        if (mAnimation != null) {
-            mAnimation!!.removeAllUpdateListeners()
-            mAnimation!!.removeAllListeners()
-        }
-        if (mColorAnimation != null) {
-            mColorAnimation!!.removeAllListeners()
-            mColorAnimation!!.removeAllUpdateListeners()
-        }
+        mAnimation?.removeAllUpdateListeners()
+        mAnimation?.removeAllListeners()
+        mColorAnimation?.removeAllListeners()
+        mColorAnimation?.removeAllUpdateListeners()
     }
 
 
@@ -195,8 +185,8 @@ class BallAnimation
         )
 
         // Update the animation periodically across the path
-        mAnimation!!.addUpdateListener { va ->
-            val value = va.animatedFraction
+        mAnimation!!.addUpdateListener { valueAnimator ->
+            val value = valueAnimator.animatedFraction
             val pathMeasure = PathMeasure(path, true)
 
             // Get new position

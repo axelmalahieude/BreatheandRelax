@@ -31,24 +31,21 @@ class MainMenuActivity : AppCompatActivity(), SingleMessageDialogFragment.Dialog
             val minutes = (medTime / 1000 / 60).toInt()
             val seconds = (medTime / 1000).toInt() - minutes * 60
             val messageToDisplay: String
-            if (medTime == (-1).toLong() || minutes == 0 && seconds < 2)
+            if (medTime == (-1).toLong() || minutes == 0 && seconds < 2) {
                 messageToDisplay = resources.getString(R.string.meditation_finished_summary)
-            else {
-                val minutesText: String
-                val secondsText: String
-                if (minutes == 0)
-                    minutesText = ""
-                else if (minutes == 1)
-                    minutesText = " " + minutes + " " + resources.getString(R.string.minutes_singular)
-                else
-                    minutesText = " " + minutes + " " + resources.getString(R.string.minutes)
+            } else {
+                val minutesText = when(minutes) {
+                    0 -> ""
+                    1 -> " " + minutes + " " + resources.getString(R.string.minutes_singular)
+                    else -> " " + minutes + " " + resources.getString(R.string.minutes)
+                }
 
-                if (seconds == 0)
-                    secondsText = ""
-                else if (seconds == 1)
-                    secondsText = " " + seconds + " " + resources.getString(R.string.seconds_singular)
-                else
-                    secondsText = " " + seconds + " " + resources.getString(R.string.seconds)
+                val secondsText = when(seconds) {
+                    0 -> ""
+                    1 -> " " + seconds + " " + resources.getString(R.string.seconds_singular)
+                    else -> " " + seconds + " " + resources.getString(R.string.seconds)
+                }
+
                 messageToDisplay = (resources.getString(R.string.meditation_time_summary1)
                         + minutesText
                         + (if (minutes != 0 && seconds != 0) " " + resources.getString(R.string.and) else "")
