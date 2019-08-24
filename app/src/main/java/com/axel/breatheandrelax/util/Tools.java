@@ -4,7 +4,7 @@ import android.content.res.Resources;
 
 import com.axel.breatheandrelax.R;
 
-public class Tools {
+public class  Tools {
 
     /**
      * Converts a resource String to the associated color
