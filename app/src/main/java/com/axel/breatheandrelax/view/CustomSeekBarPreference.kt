@@ -27,7 +27,7 @@ class CustomSeekBarPreference : Preference {
 
     var value: Int
         get() = if (mSeekBar == null)
-            context.resources.getInteger(R.integer.inhale_default)
+            getDefaultValue()
         else
             mSeekBar!!.progress
         set(value) {
@@ -95,7 +95,7 @@ class CustomSeekBarPreference : Preference {
 
         //TODO: Properly check for defaults; otherwise SeekBars are not properly initialized on first time use
         mSharedPreferences = this.sharedPreferences
-        val currVal = mSharedPreferences!!.getInt(mKey, 12341234)
+        val currVal = mSharedPreferences!!.getInt(mKey, getDefaultValue())
 
         label.text = mTitle
         mSeekBar!!.max = mMaxVal
@@ -116,5 +116,15 @@ class CustomSeekBarPreference : Preference {
                 mSharedPreferences!!.edit().putInt(mKey, seekBar.progress).apply()
             }
         })
+    }
+
+    private fun getDefaultValue() : Int {
+        return when (mKey) {
+            context.resources.getString(R.string.pref_seekbar_inhale_key) -> context.resources.getInteger(R.integer.inhale_default)
+            context.resources.getString(R.string.pref_seekbar_exhale_key) -> context.resources.getInteger(R.integer.exhale_default)
+            context.resources.getString(R.string.pref_seekbar_hold_key)   -> context.resources.getInteger(R.integer.hold_default)
+            context.resources.getString(R.string.pref_seekbar_pause_key)  -> context.resources.getInteger(R.integer.pause_default)
+            else -> 1
+        }
     }
 }
