@@ -2,12 +2,11 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/preferences">
-    <ListPreference
+    <com.axel.breatheandrelax.view.CustomListPreference
         android:defaultValue="@string/pref_list_uplifting_breathing_value"
         android:entries="@array/breathing_style_list"
         android:entryValues="@array/breathing_style_list_values"
         android:key="@string/pref_list_breath_style_key"
-        android:summary="%s"
         android:title="@string/pref_list_breath_style_label" />
     <com.axel.breatheandrelax.view.CustomSeekBarPreference
         android:key="@string/pref_seekbar_inhale_key"

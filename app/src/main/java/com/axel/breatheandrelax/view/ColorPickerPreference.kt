@@ -87,7 +87,6 @@ class ColorPickerPreference : Preference {
         val checkBoxes = arrayOf(mCb1!!, mCb2!!, mCb3!!, mCb4!!)
 
         // Check the default color
-        //TODO: Properly check for defaults if first time use. Otherwise no color is chosen
         val sharedPreferences = this.sharedPreferences
         val currentColor = sharedPreferences.getString(mKey, Tools.intColorToKey(context.resources, mDefaultColor))
 

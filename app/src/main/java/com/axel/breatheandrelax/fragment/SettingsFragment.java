@@ -39,6 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private final static String TAG = SettingsFragment.class.getSimpleName();
 
     private CustomListPreference mAnimationPreference;
+    private CustomListPreference mBreathingPresetPreference;
 
     /**
      * Populates the fragment with the proper set of preferences
@@ -49,7 +50,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref);
         mAnimationPreference = findPreference(getResources().getString(R.string.pref_animation_style_key));
+        mBreathingPresetPreference = findPreference(getResources().getString(R.string.pref_list_breath_style_key));
         mAnimationPreference.setSummary();
+        mBreathingPresetPreference.setSummary();
     }
 
     /**
@@ -82,10 +85,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
      * @param preferenceScreen is the preference screen to manipulate
      * @return the preference adapter
      */
+    @SuppressLint("RestrictedAPI")
     @Override
     protected RecyclerView.Adapter onCreateAdapter(PreferenceScreen preferenceScreen) {
         return new PreferenceGroupAdapter(preferenceScreen) {
-            @SuppressLint("RestrictedAPI")
             @Override
             public void onBindViewHolder(@NonNull PreferenceViewHolder holder, int position, @NonNull List<Object> payloads) {
                 super.onBindViewHolder(holder, position, payloads);
@@ -146,13 +149,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getResources().getString(R.string.pref_animation_style_key)))
+        if (key.equals(getResources().getString(R.string.pref_animation_style_key))) {
             mAnimationPreference.setSummary();
+        } else if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
+            mBreathingPresetPreference.setSummary();
+        }
 
         // This block listens for changes in the ListPreference and changes the SeekBarPreferences
         // according to which preset the user chose
         if (key.equals(getResources().getString(R.string.pref_list_breath_style_key))) {
-            ListPreference listPreference = findPreference(key);
+            CustomListPreference listPreference = findPreference(key);
             String currentValue = listPreference.getValue();
             CustomSeekBarPreference inhaleSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_inhale_key));
             CustomSeekBarPreference exhaleSeekBar = getPreferenceManager().findPreference(getResources().getString(R.string.pref_seekbar_exhale_key));
@@ -180,7 +186,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                  key.equals(getResources().getString(R.string.pref_seekbar_exhale_key)) ||
                  key.equals(getResources().getString(R.string.pref_seekbar_hold_key)) ||
                  key.equals(getResources().getString(R.string.pref_seekbar_pause_key))){
-            ListPreference listPreference = getPreferenceManager()
+            CustomListPreference listPreference = getPreferenceManager()
                     .findPreference(getResources().getString(R.string.pref_list_breath_style_key));
             int inhaleTime = ((CustomSeekBarPreference) getPreferenceManager().findPreference(
                     getResources().getString(R.string.pref_seekbar_inhale_key))).getValue();
@@ -207,8 +213,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     holdTime == getResources().getInteger(R.integer.hold_meditative_default) &&
                     pauseTime == getResources().getInteger(R.integer.pause_meditative_default)) {
                 listPreference.setValue(getResources().getString(R.string.pref_list_meditative_breathing_value));
-            } else
+            } else {
                 listPreference.setValue(getResources().getString(R.string.pref_list_custom_breathing_value));
+            }
         }
     }
 }

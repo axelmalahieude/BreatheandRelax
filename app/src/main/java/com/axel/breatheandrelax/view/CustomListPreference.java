@@ -73,9 +73,15 @@ public class CustomListPreference extends DialogPreference {
      * Get the entry in the ListPreference that is currently selected, or the default if none is selected
      * @return the selected entry
      */
-    public String getSelection() {
+    public String getValue() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sharedPreferences.getString(mKey, mDefaultEntry);
+    }
+
+    public void setValue(String newValue) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPreferences.edit().putString(mKey, newValue).apply();
+
     }
 
     public void setSummary() {
@@ -84,5 +90,7 @@ public class CustomListPreference extends DialogPreference {
         ArrayList<String> entryKeys = new ArrayList<>(Arrays.asList(getEntryKeys()));
         ArrayList<String> entryValues = new ArrayList<>(Arrays.asList(getEntryValues()));
         setSummary(entryValues.get(entryKeys.indexOf(selection)));
+        Log.d(TAG, "SETTING SUMMARY");
+        Log.d(TAG, entryValues.get(entryKeys.indexOf(selection)));
     }
 }

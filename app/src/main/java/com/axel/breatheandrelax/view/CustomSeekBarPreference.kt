@@ -93,7 +93,6 @@ class CustomSeekBarPreference : Preference {
         mTextViewValue = holder.findViewById(R.id.tv_seekbar_value) as TextView
         val label = holder.findViewById(R.id.tv_seekbar_title) as TextView
 
-        //TODO: Properly check for defaults; otherwise SeekBars are not properly initialized on first time use
         mSharedPreferences = this.sharedPreferences
         val currVal = mSharedPreferences!!.getInt(mKey, getDefaultValue())
 

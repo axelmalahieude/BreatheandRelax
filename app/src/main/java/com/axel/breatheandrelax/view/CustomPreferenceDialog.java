@@ -48,7 +48,7 @@ public class CustomPreferenceDialog extends PreferenceDialogFragmentCompat {
         args.putString(ARG_TITLE, preference.getTitle().toString());
         args.putStringArray(ARG_ENTRYVALUES, preference.getEntryValues());
         args.putStringArray(ARG_ENTRYKEYS, preference.getEntryKeys());
-        args.putString(ARG_DEFAULT, preference.getSelection());
+        args.putString(ARG_DEFAULT, preference.getValue());
         fragment.setArguments(args);
         return fragment;
     }
