@@ -192,7 +192,7 @@ class MeditationActivity : AppCompatActivity(),
      * Creates the animation to be displayed with parameters from SharedPreferences
      * @param sharedPreferences the preferences to read from
      */
-    fun createAnimation(sharedPreferences: SharedPreferences) {
+    private fun createAnimation(sharedPreferences: SharedPreferences) {
         // Fetch breathing times from preferences
         val inhaleTime = sharedPreferences.getInt(getString(R.string.pref_seekbar_inhale_key), resources.getInteger(R.integer.inhale_uplifting_default))
         val exhaleTime = sharedPreferences.getInt(getString(R.string.pref_seekbar_exhale_key), resources.getInteger(R.integer.exhale_uplifting_default))

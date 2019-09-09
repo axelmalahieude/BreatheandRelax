@@ -41,14 +41,14 @@ class SizeAnimation
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.getResources().getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
     }
 
     /**
      * Override for Movable.startBreathing
      * Refreshes the UI
      */
-    public override fun startBreathing() {
+    override fun startBreathing() {
         // Add the animated object to the screen
         val params = ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -56,41 +56,41 @@ class SizeAnimation
         )
 
         // Refresh the UI (in case this animation is not starting from scratch)
-        mBall.getDrawable().setTint(inhaleColor) // reset color
-        if (mBall.getParent() != null)
+        mBall.drawable.setTint(inhaleColor) // reset color
         // verify object has a parent before removing it
-            (mBall.getParent() as ViewGroup).removeView(mBall)
+        if (mBall.parent != null) {
+            (mBall.parent as ViewGroup).removeView(mBall)
+
+        }
         mScreen.addView(mBall, params)
-        mParams = mBall.getLayoutParams()
+        mParams = mBall.layoutParams
 
         // Determine screen orientation to properly position the animated object
-        mOrientation = mContext.getResources().getConfiguration().orientation
+        mOrientation = mContext.resources.configuration.orientation
 
         // The animation itself; we set it to change the size of the object dynamically
-        mAnimation!!.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-            public override fun onAnimationUpdate(animation: ValueAnimator) {
-                val size = animation.getAnimatedValue() as Int
-                mParams!!.width = size
-                mParams!!.height = mParams!!.width
-                mBall.setLayoutParams(mParams)
+        mAnimation!!.addUpdateListener { animation ->
+            val size = animation.animatedValue as Int
+            mParams!!.width = size
+            mParams!!.height = mParams!!.width
+            mBall.layoutParams = mParams
 
-                val ballHeight = mBall.getHeight() / 2
-                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mBall.setX(screenCenterY - ballHeight)
-                    mBall.setY(screenCenterX - ballHeight)
-                } else {
-                    mBall.setX(screenCenterX - ballHeight)
-                    mBall.setY(screenCenterY - ballHeight)
-                }
+            val ballHeight = mBall.height / 2
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mBall.x = screenCenterY - ballHeight
+                mBall.y = screenCenterX - ballHeight
+            } else {
+                mBall.x = screenCenterX - ballHeight
+                mBall.y = screenCenterY - ballHeight
             }
-        })
+        }
         super.startBreathing() // Movable.startBreathing does the rest of the work
     }
 
     /**
      * Stops the animation and removes its elements from the UI
      */
-    public override fun stopBreathing() {
+    override fun stopBreathing() {
         super.stopBreathing()
         if (mColorAnimation != null)
             mColorAnimation!!.cancel()
@@ -103,13 +103,13 @@ class SizeAnimation
     /**
      * Either inhale or exhale, performing the correct animation.
      */
-    protected override fun breathe() {
+    override fun breathe() {
         // Animate the item we just created
         if (justInhaled()) {
-            mAnimation!!.setDuration(exhaleTime.toLong())
+            mAnimation!!.duration = exhaleTime.toLong()
             mAnimation!!.reverse()
         } else {
-            mAnimation!!.setDuration(inhaleTime.toLong())
+            mAnimation!!.duration = inhaleTime.toLong()
             mAnimation!!.start()
         }
 
@@ -118,7 +118,7 @@ class SizeAnimation
 
         // Wait for the animation to finish before continuing
         mAnimation!!.addListener(object : AnimatorListenerAdapter() {
-            public override fun onAnimationEnd(animation: Animator) {
+            override fun onAnimationEnd(animation: Animator) {
                 holdBreath()
                 mAnimation!!.removeListener(this)
             }
@@ -128,25 +128,21 @@ class SizeAnimation
     /**
      * Change the color of the animated object to signify the user holding their breath.
      */
-    protected override fun holdBreath() {
+    override fun holdBreath() {
         // Create the appropriate color animation (e.g. blue --> red vs red --> blue)
         if (justInhaled()) {
             mColorAnimation = ValueAnimator.ofArgb(inhaleColor, exhaleColor)
-            mColorAnimation!!.setDuration(holdTime.toLong())
+            mColorAnimation!!.duration = holdTime.toLong()
         } else {
             mColorAnimation = ValueAnimator.ofArgb(exhaleColor, inhaleColor)
-            mColorAnimation!!.setDuration(pauseTime.toLong())
+            mColorAnimation!!.duration = pauseTime.toLong()
         }
 
-        mColorAnimation!!.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-            public override fun onAnimationUpdate(animation: ValueAnimator) {
-                mBall.getDrawable().setTint(animation.getAnimatedValue() as Int)
-            }
-        })
+        mColorAnimation!!.addUpdateListener { animation -> mBall.drawable.setTint(animation.animatedValue as Int) }
 
         // Wait for the animation to finish before breathing again
         mColorAnimation!!.addListener(object : AnimatorListenerAdapter() {
-            public override fun onAnimationEnd(animation: Animator) {
+            override fun onAnimationEnd(animation: Animator) {
                 mColorAnimation!!.removeAllListeners()
                 breathe()
             }
@@ -155,7 +151,7 @@ class SizeAnimation
         mColorAnimation!!.start()
     }
 
-    protected override fun removeListeners() {
+    override fun removeListeners() {
         // no need to do so
     }
 }

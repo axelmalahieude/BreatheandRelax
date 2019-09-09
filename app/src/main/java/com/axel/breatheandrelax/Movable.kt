@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
 import android.util.TypedValue
-import android.view.Display
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -19,7 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 abstract class Movable
 /**
  * Constructor initializes default values common to all breathing animations.
- * @param context is the context from the activity that displays the animation.
+ * @param mContext is the context from the activity that displays the animation.
  */
 internal constructor(protected var mContext: Context, var inhaleTime: Int, var exhaleTime: Int, var holdTime: Int, var pauseTime: Int) {
 

@@ -2,9 +2,7 @@ package com.axel.breatheandrelax.view
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.SeekBar
 import android.widget.TextView
 
@@ -38,24 +36,22 @@ class CustomSeekBarPreference : Preference {
         }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        constructor(context, attrs, defStyleAttr)
+        constructor(attrs)
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        constructor(context, attrs, 0)
+        constructor(attrs)
     }
 
     constructor(context: Context) : super(context) {
-        constructor(context, null, 0)
+        constructor(null)
     }
 
     /**
      * Collective constructor handling
-     * @param context context for view
      * @param attrs attributes defined in XML for view
-     * @param defStyleAttr theme reference
      */
-    private fun constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
+    private fun constructor(attrs: AttributeSet?) {
         this.layoutResource = R.layout.pref_seekbar
         if (attrs != null)
             getAttributes(attrs)

@@ -3,7 +3,6 @@ package com.axel.breatheandrelax
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Path
@@ -43,7 +42,7 @@ class BallAnimation
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.getResources().getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
     }
 
 
