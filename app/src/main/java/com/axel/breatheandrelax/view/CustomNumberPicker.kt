@@ -3,9 +3,10 @@ package com.axel.breatheandrelax.view
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
-import android.view.View
 import android.widget.EditText
 import android.widget.NumberPicker
+import androidx.core.content.ContextCompat
+import com.axel.breatheandrelax.R
 
 /**
  * Extends the NumberPicker to include useful attributes, such as min and max values.
@@ -98,6 +99,6 @@ class CustomNumberPicker : NumberPicker {
      * @return the color to fade the NumberPicker edges to
      */
     override fun getSolidColor(): Int {
-        return resources.getColor(android.R.color.transparent)
+        return ContextCompat.getColor(context, R.color.transparent)
     }
 }

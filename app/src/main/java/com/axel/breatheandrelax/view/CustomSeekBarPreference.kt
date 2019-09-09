@@ -3,6 +3,7 @@ package com.axel.breatheandrelax.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.TextView
 
@@ -20,8 +21,6 @@ class CustomSeekBarPreference : Preference {
     private var mTitle: String? = null
     private var mKey: String? = null
     private var mMaxVal: Int = 0
-
-    private val TAG = CustomSeekBarPreference::class.java.simpleName
 
     var value: Int
         get() = if (mSeekBar == null)
@@ -113,13 +112,12 @@ class CustomSeekBarPreference : Preference {
         })
     }
 
-    private fun getDefaultValue() : Int {
-        return when (mKey) {
-            context.resources.getString(R.string.pref_seekbar_inhale_key) -> context.resources.getInteger(R.integer.inhale_default)
-            context.resources.getString(R.string.pref_seekbar_exhale_key) -> context.resources.getInteger(R.integer.exhale_default)
-            context.resources.getString(R.string.pref_seekbar_hold_key)   -> context.resources.getInteger(R.integer.hold_default)
-            context.resources.getString(R.string.pref_seekbar_pause_key)  -> context.resources.getInteger(R.integer.pause_default)
-            else -> 1
-        }
-    }
+    private fun getDefaultValue(): Int =
+            when (mKey) {
+                context.resources.getString(R.string.pref_seekbar_inhale_key) -> context.resources.getInteger(R.integer.inhale_default)
+                context.resources.getString(R.string.pref_seekbar_exhale_key) -> context.resources.getInteger(R.integer.exhale_default)
+                context.resources.getString(R.string.pref_seekbar_hold_key) -> context.resources.getInteger(R.integer.hold_default)
+                context.resources.getString(R.string.pref_seekbar_pause_key) -> context.resources.getInteger(R.integer.pause_default)
+                else -> 1
+            }
 }

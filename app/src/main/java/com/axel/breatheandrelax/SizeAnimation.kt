@@ -9,6 +9,7 @@ import android.content.res.Configuration
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 
 /**
  * One of the breathing animations. Extends from Movable, which takes care
@@ -41,7 +42,7 @@ class SizeAnimation
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ball))
     }
 
     /**

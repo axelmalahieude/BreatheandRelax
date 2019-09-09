@@ -106,32 +106,30 @@ class DualChronometer : Chronometer {
 
     /**
      * Sets the properly formatted time for the chronometer
-     * @param time is the time in milliseconds to set the chronometer for
+     * @param calculatedTime is the time in milliseconds to set the chronometer for
      */
-    private fun setText(time: Long) {
-        var time = time
-        if (time <= 0) time = 0
+    private fun setText(calculatedTime: Long) {
+        val time = if (calculatedTime < 0) 0 else calculatedTime
+
         val hours = time.toInt() / 3600000
         val minutes = (if (hours > 0) time / 60000 % (60 * hours) else time / 60000).toInt()
         val seconds = (if (minutes > 0) time / 1000 % (60 * minutes) else time / 1000).toInt()
-        if (minutes == 0)
-        // just seconds if < 1 minute
-            text = seconds.toString()
+
+        text = if (minutes == 0)
+            seconds.toString()
         else if (hours == 0)
             if (seconds > 9)
-            // formats to MM:SS
-                text = String.format(Locale.getDefault(), "%d:%d", minutes, seconds)
+                String.format(Locale.getDefault(), "%d:%d", minutes, seconds) // MM:SS
             else
-            // formats to MM:S (under 10 seconds so we need a leading zero)
-                text = String.format(Locale.getDefault(), "%d:0%d", minutes, seconds)
+                String.format(Locale.getDefault(), "%d:0%d", minutes, seconds) // MM:0S
         else if (seconds > 9 && minutes > 9)
-            text = String.format(Locale.getDefault(), "%d:%d:%d", hours, minutes, seconds)
+            String.format(Locale.getDefault(), "%d:%d:%d", hours, minutes, seconds)
         else if (seconds > 9)
-            text = String.format(Locale.getDefault(), "%d:0%d:%d", hours, minutes, seconds)
+            String.format(Locale.getDefault(), "%d:0%d:%d", hours, minutes, seconds)
         else if (minutes > 9)
-            text = String.format(Locale.getDefault(), "%d:%d:0%d", hours, minutes, seconds)
+            String.format(Locale.getDefault(), "%d:%d:0%d", hours, minutes, seconds)
         else
-            text = String.format(Locale.getDefault(), "%d:0%d:0%d", hours, minutes, seconds)
+            String.format(Locale.getDefault(), "%d:0%d:0%d", hours, minutes, seconds)
     }
 
     /**

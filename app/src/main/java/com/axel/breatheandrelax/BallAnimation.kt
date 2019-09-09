@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 
 /**
  * One of the breathing animations. Extends from Movable, which takes care of most
@@ -42,7 +43,7 @@ class BallAnimation
 
         // Create the object to animate
         mBall = ImageView(context)
-        mBall.setImageDrawable(context.resources.getDrawable(R.drawable.ball))
+        mBall.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ball))
     }
 
 
@@ -165,7 +166,6 @@ class BallAnimation
      * @param angle through which to move the animation through
      */
     private fun move(milliseconds: Int, angle: Float) {
-        var angle = angle
         mAnimation!!.duration = milliseconds.toLong()
 
         // Generate path through which animation travels
@@ -174,9 +174,10 @@ class BallAnimation
 
         // Determine the starting angle based on screen orientation
         var startAngle = 270f
+        var direction = 1
         if (mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             startAngle = 180f
-            angle *= -1f // landscape switches animation direction
+            direction = -1 // landscape switches animation direction
         }
 
         // Generate the path through which to arc the object
@@ -184,7 +185,7 @@ class BallAnimation
                 screenCenterY - arcRadius,
                 screenCenterX + arcRadius,
                 screenCenterY + arcRadius,
-                startAngle, angle, true
+                startAngle, angle * direction, true
         )
 
         // Update the animation periodically across the path
