@@ -12,8 +12,12 @@ Currently working on an update to introduce sound cues for breathing and improve
 
 Splash page:
 
+![Alt text](res/splash.resized.jpg?raw=true)
 
 Settings page:
 
+![Alt text](res/settings.resized.jpg?raw=true)
 
 Meditation activity:
+
+![Alt text](res/meditation.resized.jpg?raw=true)
