@@ -9,3 +9,11 @@ pausing between breaths can be modified to comfort. In addition, the animation c
 exhalation can be changed, as can the animation itself. 
 
 Currently working on an update to introduce sound cues for breathing and improve the layout of the settings activity.
+
+Splash page:
+
+
+Settings page:
+
+
+Meditation activity:
